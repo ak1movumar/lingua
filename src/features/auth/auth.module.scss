@@ -1,0 +1,202 @@
+.screen {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  padding: 1rem;
+  gap: 1rem;
+}
+.brand {
+  background: var(--hero-gradient);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: clamp(2rem, 4vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.brandCopy {
+  margin-block: auto;
+  padding-top: 3rem;
+  h2 {
+    font-size: clamp(2rem, 3.6vw, 3.6rem);
+    max-width: 35rem;
+  }
+  > p:not(.eyebrow) {
+    color: var(--color-muted);
+    max-width: 28rem;
+    font-size: 0.95rem;
+  }
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+.brandFoot {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.65rem;
+}
+.formSide {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem clamp(1rem, 3vw, 3rem);
+  > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 44px;
+      font-size: 0.75rem;
+      color: var(--color-muted);
+    }
+  }
+}
+.formPanel {
+  width: min(100%, 25rem);
+  margin: auto;
+  padding-block: 3rem;
+  h1 {
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    margin-bottom: 0.8rem;
+  }
+}
+.description {
+  color: var(--color-muted);
+  margin-bottom: 2rem;
+}
+.form {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.error,
+.success {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  font-size: 0.8rem;
+  margin: 0;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+.success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+.help {
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  text-align: center;
+  margin: 0;
+}
+.switch {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  margin: 1rem 0 0;
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+}
+.mobileLogo {
+  display: none;
+}
+.guard {
+  width: min(calc(100% - 2rem), 30rem);
+  margin: 15vh auto;
+  > div {
+    display: grid;
+    gap: 1rem;
+  }
+}
+.account {
+  width: min(calc(100% - 2rem), 64rem);
+  margin: 0 auto;
+  padding-block: 2rem;
+  > header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  > div {
+    max-width: 40rem;
+    margin: auto;
+    padding: clamp(1.5rem, 4vw, 3rem);
+  }
+  h1 {
+    font-size: 2rem;
+    margin: 1.5rem 0 1rem;
+  }
+  p {
+    color: var(--color-muted);
+  }
+}
+.accountIcon {
+  color: var(--color-success);
+}
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  strong,
+  span {
+    display: block;
+    overflow-wrap: anywhere;
+  }
+  span {
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+}
+.accountLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+@media (max-width: 48rem) {
+  .screen {
+    display: block;
+    padding: 0;
+  }
+  .brand {
+    display: none;
+  }
+  .formSide {
+    min-height: 100svh;
+    padding: 1rem 1.5rem;
+  }
+  .formPanel {
+    padding-block: 2rem;
+  }
+  .mobileLogo {
+    display: block;
+    margin-bottom: 2.5rem;
+  }
+  .formPanel > .eyebrow {
+    display: none;
+  }
+}
+@media (max-width: 23rem) {
+  .formSide {
+    padding-inline: 1rem;
+  }
+  .accountLinks > a {
+    width: 100%;
+  }
+}

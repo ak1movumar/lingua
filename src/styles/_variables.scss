@@ -1,0 +1,201 @@
+:root {
+  --font-sans: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-sans);
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-display: clamp(2rem, 4vw, 3.5rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-full: 999px;
+
+  --container-width: 82rem;
+  --content-width: 72rem;
+  --sidebar-width: 15rem;
+  --header-height: 5rem;
+
+  --transition-fast: 160ms ease;
+  --transition-normal: 240ms ease;
+
+  --z-header: 20;
+  --z-nav: 30;
+  --z-dropdown: 40;
+  --z-modal: 100;
+
+  --color-on-primary: #fff;
+}
+
+/* =========================
+   LIGHT THEME
+========================= */
+
+:root,
+html[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg: #f6f7fb;
+  --color-surface: #fff;
+  --color-surface-raised: #fff;
+  --color-subtle: #f0f1f7;
+
+  --color-text: #242638;
+  --color-muted: #666b80;
+
+  --color-primary: #6554cf;
+  --color-primary-hover: #5141b4;
+  --color-primary-soft: #efecfd;
+
+  --color-border: #e3e5ee;
+  --color-border-strong: #c5c9d8;
+
+  --color-success: #216d62;
+  --color-success-soft: #e9f5f0;
+
+  --color-warning: #8b5b19;
+  --color-warning-soft: #fff3dc;
+
+  --color-danger: #b83d54;
+  --color-danger-soft: #ffedf0;
+
+  --color-info: #3469a2;
+  --color-info-soft: #eaf2ff;
+
+  --color-overlay: rgb(24 27 49 / 40%);
+
+  /* Новый фон приложения */
+  --app-background:
+    radial-gradient(
+      circle at 8% 12%,
+      rgb(101 84 207 / 14%),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 92% 15%,
+      rgb(89 159 255 / 10%),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 85% 88%,
+      rgb(245 162 58 / 9%),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 30% 95%,
+      rgb(172 135 255 / 8%),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #f9f9ff 0%,
+      #f6f7fb 45%,
+      #f8faff 100%
+    );
+
+  --hero-gradient: linear-gradient(
+    115deg,
+    #eeebfb 0%,
+    #f0effc 50%,
+    #e8f0fc 100%
+  );
+
+  --shadow-sm: 0 2px 5px rgb(31 35 68 / 3%);
+  --shadow-card: 0 8px 32px rgb(31 35 68 / 4%);
+  --shadow-float: 0 20px 60px rgb(31 35 68 / 15%);
+}
+
+/* =========================
+   DARK THEME
+========================= */
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #111522;
+  --color-surface: #1a1f30;
+  --color-surface-raised: #232a3d;
+  --color-subtle: #23293c;
+
+  --color-text: #eef0fa;
+  --color-muted: #a6aec5;
+
+  --color-primary: #b0a3ff;
+  --color-primary-hover: #c3b9ff;
+  --color-primary-soft: #30294b;
+
+  --color-on-primary: #201939;
+
+  --color-border: #2d354b;
+  --color-border-strong: #525d77;
+
+  --color-success: #8bd5bc;
+  --color-success-soft: #203b37;
+
+  --color-warning: #edc27c;
+  --color-warning-soft: #3c3226;
+
+  --color-danger: #ffa1b0;
+  --color-danger-soft: #432a38;
+
+  --color-info: #99c7fa;
+  --color-info-soft: #25354e;
+
+  --color-overlay: rgb(6 9 18 / 65%);
+
+  /* Новый фон приложения */
+  --app-background:
+    radial-gradient(
+      circle at 8% 12%,
+      rgb(126 99 255 / 22%),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 92% 12%,
+      rgb(63 118 255 / 14%),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 88%,
+      rgb(245 162 58 / 8%),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 25% 95%,
+      rgb(111 77 210 / 14%),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #0c1020 0%,
+      #111522 48%,
+      #10182a 100%
+    );
+
+  --hero-gradient: linear-gradient(
+    115deg,
+    #2c2649 0%,
+    #262740 50%,
+    #202f45 100%
+  );
+
+  --shadow-sm: 0 2px 5px rgb(3 6 14 / 8%);
+  --shadow-card: 0 8px 32px rgb(3 6 14 / 10%);
+  --shadow-float: 0 20px 60px rgb(3 6 14 / 35%);
+}

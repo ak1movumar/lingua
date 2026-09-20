@@ -1,0 +1,44 @@
+.page,
+.form {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+}
+.nav,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1rem;
+}
+.item {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.error {
+  color: var(--color-danger);
+}
+.muted {
+  color: var(--color-muted);
+}
+.details {
+  margin: 0;
+  display: grid;
+  gap: 0.4rem;
+  dd {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+  dt {
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,31 @@
+.theme {
+  display: flex;
+  padding: 0.25rem;
+  gap: 0.2rem;
+  background: var(--color-subtle);
+  border-radius: var(--radius-md);
+}
+.option {
+  min-width: 0;
+  flex: 1;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.4rem;
+  border: 0;
+  border-radius: 0.625rem;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 0.65rem;
+  transition: background var(--transition-fast);
+  span {
+    overflow-wrap: anywhere;
+  }
+}
+.active {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-primary);
+}

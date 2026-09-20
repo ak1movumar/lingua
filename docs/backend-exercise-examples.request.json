@@ -1,0 +1,22 @@
+{
+  "template_purpose": "Request actual backend examples; this document is not an API payload",
+  "choice": {
+    "GET /exercises/{exercise_id} response": null,
+    "POST /exercises/{exercise_id}/submit correct request body": null,
+    "POST /exercises/{exercise_id}/submit incorrect request body": null,
+    "correct response": null,
+    "incorrect response": null,
+    "single or multiple selection rules": null
+  },
+  "match": {
+    "GET /exercises/{exercise_id} response": null,
+    "POST /exercises/{exercise_id}/submit correct request body": null,
+    "POST /exercises/{exercise_id}/submit incorrect request body": null,
+    "correct response": null,
+    "incorrect response": null,
+    "pair direction, ordering and partial submission rules": null
+  },
+  "translate and fill_gap": {
+    "confirmed string answer request and response examples": null
+  }
+}

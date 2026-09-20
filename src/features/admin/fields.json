@@ -1,0 +1,146 @@
+{
+  "LanguageCreate": [
+    {
+      "key": "code",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "name",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "is_active",
+      "type": "boolean",
+      "required": false,
+      "initial": false
+    }
+  ],
+  "CourseCreate": [
+    {
+      "key": "language_id",
+      "type": "integer",
+      "required": true
+    },
+    {
+      "key": "title",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "description",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "level",
+      "type": "string",
+      "required": true,
+      "choices": ["A1", "A2", "B1", "B2", "C1", "C2"]
+    },
+    {
+      "key": "order",
+      "type": "integer",
+      "required": true
+    }
+  ],
+  "LessonCreate": [
+    {
+      "key": "course_id",
+      "type": "integer",
+      "required": true
+    },
+    {
+      "key": "title",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "order",
+      "type": "integer",
+      "required": true
+    },
+    {
+      "key": "is_locked",
+      "type": "boolean",
+      "required": false,
+      "initial": false
+    }
+  ],
+  "ExerciseCreate": [
+    {
+      "key": "lesson_id",
+      "type": "integer",
+      "required": true
+    },
+    {
+      "key": "type",
+      "type": "string",
+      "required": true,
+      "choices": ["choice", "translate", "fill_gap", "match"]
+    },
+    {
+      "key": "question",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "options",
+      "type": "object",
+      "required": true
+    },
+    {
+      "key": "correct_answer",
+      "type": "json",
+      "required": true
+    }
+  ],
+  "AchievementCreate": [
+    {
+      "key": "title",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "description",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "xp_reward",
+      "type": "integer",
+      "required": false,
+      "initial": 0
+    },
+    {
+      "key": "conditions",
+      "type": "object",
+      "required": false
+    }
+  ],
+  "ChallengeCreate": [
+    {
+      "key": "title",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "description",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "xp_reward",
+      "type": "integer",
+      "required": false,
+      "initial": 0
+    },
+    {
+      "key": "challenge_date",
+      "type": "string",
+      "required": true,
+      "format": "date"
+    }
+  ]
+}

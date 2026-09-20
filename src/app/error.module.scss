@@ -1,0 +1,8 @@
+.page {
+  width: min(calc(100% - 2rem), 36rem);
+  margin: clamp(2rem, 10vh, 8rem) auto;
+  > div {
+    padding: clamp(1rem, 4vw, 2rem);
+    text-align: center;
+  }
+}
