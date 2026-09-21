@@ -18,9 +18,11 @@ import {
 import styles from './social.module.scss';
 export function FriendActions({
   id,
+  username,
   showMessage = true,
 }: {
   id: string;
+  username: string;
   showMessage?: boolean;
 }) {
   const { user } = useAuth();
@@ -106,7 +108,7 @@ export function FriendActions({
             (mutation.isSuccess && mutation.variables.type === 'send')
           }
           loading={mutation.isPending && mutation.variables.type === 'send'}
-          onClick={() => run({ type: 'send', id })}
+          onClick={() => run({ type: 'send', id, username })}
         >
           <UserPlus size={16} />
           {sent ? text.pending : t.add}

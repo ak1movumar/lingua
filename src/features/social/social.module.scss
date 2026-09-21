@@ -204,3 +204,74 @@
     min-width: 0;
   }
 }
+
+.person {
+  border-radius: 1.5rem;
+  background: linear-gradient(
+    180deg,
+    var(--color-primary-soft),
+    var(--color-surface) 85px
+  );
+  padding-top: 1.75rem;
+}
+.person .identity {
+  align-items: flex-start;
+}
+.person .identity > [role='img'] {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid var(--color-surface);
+}
+.person .relationship {
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+.request {
+  border-radius: 1.25rem;
+}
+.addFriend {
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+}
+.addFriend form {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+}
+.profileBody > [role='img'] {
+  margin-top: -3.5rem;
+  position: relative;
+  border: 5px solid var(--color-surface);
+  border-radius: 50%;
+  width: 88px;
+  height: 88px;
+}
+.profileCover {
+  height: 10rem;
+}
+.profileBody dl {
+  border: 0;
+  background: var(--color-subtle);
+  border-radius: 1rem;
+  padding: 1.25rem;
+}
+.banner {
+  box-shadow: var(--shadow-card);
+}
+@media (max-width: 48rem) {
+  .addFriend form {
+    grid-template-columns: 1fr;
+  }
+  .person {
+    padding: 1.25rem;
+  }
+  .sections {
+    gap: 2rem;
+  }
+}
+
+.profile {
+  padding: 0;
+}

@@ -24,7 +24,7 @@ export function CatalogPreview() {
     <>
       <section className={styles.languages} aria-labelledby="languages-heading">
         <div>
-          <p className={styles.eyebrow}>LINGUA</p>
+          <p className={styles.eyebrow}>LINGORA</p>
           <h2 id="languages-heading">{t.languagesTitle}</h2>
           <p>{t.languagesDescription}</p>
         </div>

@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -34,37 +33,63 @@ export function LandingPage() {
   ];
   return (
     <div className={styles.page}>
-      <PublicHeader />
       <main id="main-content">
-        <section className={styles.hero}>
-          <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>
-              <span />
-              {t.eyebrow}
-            </p>
-            <h1>{t.heroTitle}</h1>
-            <p className={styles.heroDescription}>{t.heroDescription}</p>
-            <div className={styles.heroActions}>
-              <LinkButton href="/register">
-                {t.start}
-                <ArrowRight size={18} />
-              </LinkButton>
-              <LinkButton href="#courses" variant="secondary">
-                {t.explore}
-                <ArrowUpRight size={17} />
-              </LinkButton>
+        <div className={styles.heroFrame}>
+          <PublicHeader />
+          <section className={styles.hero}>
+            <LanguageArt />
+            <div className={styles.heroCopy}>
+              <p className={styles.eyebrow}>
+                <span />
+                {t.eyebrow}
+              </p>
+              <h1>
+                {t.heroTitle.split('\n').map((line, index) => (
+                  <span key={line} data-accent={index > 0}>
+                    {line}
+                  </span>
+                ))}
+              </h1>
+              <p className={styles.heroDescription}>{t.heroDescription}</p>
+              <div className={styles.heroActions}>
+                <LinkButton href="/register">
+                  {t.start}
+                  <ArrowRight size={18} />
+                </LinkButton>
+                <LinkButton href="#courses" variant="secondary">
+                  {t.explore}
+                  <ArrowUpRight size={17} />
+                </LinkButton>
+              </div>
+              <p className={styles.heroNote}>
+                <Sparkles size={15} />
+                {t.heroNote}
+              </p>
+              <div className={styles.heroFeatures}>
+                {benefits.map(({ Icon, title }) => (
+                  <div key={title}>
+                    <Icon size={20} />
+                    <span>{title}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <p className={styles.heroNote}>
-              <Sparkles size={15} />
-              {t.heroNote}
-            </p>
+          </section>
+          <div className={styles.promiseStrip}>
+            <span>
+              <BookOpen size={20} />
+              {t.benefitTwo}
+            </span>
+            <span>
+              <Compass size={20} />
+              {t.benefitOne}
+            </span>
+            <span>
+              <UsersRound size={20} />
+              {t.benefitThree}
+            </span>
+            <p>{t.journeyLabel}</p>
           </div>
-          <LanguageArt />
-        </section>
-        <div className={styles.heroDivider}>
-          <span />
-          <p>{t.journeyLabel}</p>
-          <span />
         </div>
         <section id="features" className={styles.section}>
           <div className={styles.centerHeading}>
@@ -138,29 +163,29 @@ export function LandingPage() {
           </LinkButton>
         </section>
       </main>
-<footer className={styles.footer}>
-  <div className={styles.footerBrand}>
-    <Logo />
-    <p>{t.footer}</p>
-  </div>
+      <footer className={styles.footer}>
+        <div className={styles.footerBrand}>
+          <Logo />
+          <p>{t.footer}</p>
+        </div>
 
-  <nav className={styles.footerLinks} aria-label={t.about}>
-    <a href="#features">{t.features}</a>
-    <a href="#courses">{t.courses}</a>
-    <a href="#community">{t.community}</a>
-  </nav>
+        <nav className={styles.footerLinks} aria-label={t.about}>
+          <a href="#features">{t.features}</a>
+          <a href="#courses">{t.courses}</a>
+          <a href="#community">{t.community}</a>
+        </nav>
 
-  <div className={styles.footerBottom}>
-    <span>© {new Date().getFullYear()} Lingua</span>
+        <div className={styles.footerBottom}>
+          <span>© {new Date().getFullYear()} Lingora</span>
 
-    <span>
-      Разработано{' '}
-      <a href="/" target="_blank" rel="noopener noreferrer">
-        Motion Community
-      </a>
-    </span>
-  </div>
-</footer>
+          <span>
+            Разработано{' '}
+            <a href="/" target="_blank" rel="noopener noreferrer">
+              Motion Community
+            </a>
+          </span>
+        </div>
+      </footer>
     </div>
   );
 }

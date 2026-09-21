@@ -1,11 +1,13 @@
 'use client';
 import type { ReactNode } from 'react';
-import { LogOut } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { LogOut, Route, Medal, Flame, Trophy, Settings2 } from 'lucide-react';
 import { AppShell } from '@/components/layout/app-shell';
 import type { NavigationKey } from '@/components/layout/navigation';
 import { IconButton } from '@/components/ui/button';
 import { LinkButton } from '@/components/ui/link-button';
 import { labels } from '@/i18n/management';
+import { placementMessages } from '@/i18n/placement';
 import { useAuth } from '@/features/auth/auth-provider';
 import { useLogout } from '@/features/auth/use-logout';
 import { useI18n } from '@/providers/i18n-provider';
@@ -18,6 +20,7 @@ export function LearningShell({
   active: NavigationKey;
 }) {
   const { user } = useAuth();
+  const pathname = usePathname();
   const {
     locale,
     messages: { nav, auth },
@@ -43,17 +46,45 @@ export function LearningShell({
       }
     >
       <nav aria-label={extra.overview} className={styles.extraNavigation}>
-        <LinkButton href="/achievements" variant="ghost">
+        <LinkButton
+          href="/learning-path"
+          variant="ghost"
+          aria-current={pathname === '/learning-path' ? 'page' : undefined}
+        >
+          <Route size={16} />
+          {placementMessages[locale].title}
+        </LinkButton>
+        <LinkButton
+          href="/achievements"
+          variant="ghost"
+          aria-current={pathname === '/achievements' ? 'page' : undefined}
+        >
+          <Medal size={16} />
           {extra.achievements}
         </LinkButton>
-        <LinkButton href="/challenges" variant="ghost">
+        <LinkButton
+          href="/challenges"
+          variant="ghost"
+          aria-current={pathname === '/challenges' ? 'page' : undefined}
+        >
+          <Flame size={16} />
           {extra.challenges}
         </LinkButton>
-        <LinkButton href="/leaderboard" variant="ghost">
+        <LinkButton
+          href="/leaderboard"
+          variant="ghost"
+          aria-current={pathname === '/leaderboard' ? 'page' : undefined}
+        >
+          <Trophy size={16} />
           {extra.leaderboard}
         </LinkButton>
         {user?.role === 'admin' && (
-          <LinkButton href="/admin" variant="secondary">
+          <LinkButton
+            href="/admin"
+            variant="ghost"
+            aria-current={pathname === '/admin' ? 'page' : undefined}
+          >
+            <Settings2 size={16} />
             {extra.admin}
           </LinkButton>
         )}

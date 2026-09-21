@@ -3,7 +3,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: clamp(1.25rem, 2.5vw, 1.75rem);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
   min-width: 0;
 }
 .badge {
@@ -11,7 +11,7 @@
   align-items: center;
   padding: 0.25rem 0.65rem;
   border-radius: var(--radius-full);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   line-height: 1.5;
 }
@@ -65,14 +65,18 @@
   font-size: 1.2rem;
 }
 .progress {
-  height: 7px;
+  height: 9px;
   border-radius: var(--radius-full);
   overflow: hidden;
   background: var(--color-subtle);
   span {
     display: block;
     height: 100%;
-    background: var(--color-primary);
+    background: linear-gradient(
+      90deg,
+      var(--color-primary),
+      var(--color-action)
+    );
     border-radius: inherit;
     transition: width 400ms ease;
   }

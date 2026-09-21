@@ -1,5 +1,10 @@
 import type { Locale } from '@/i18n/config';
 const ru = {
+  'level-tests': 'Тесты уровня',
+  'test-questions': 'Вопросы теста',
+  is_placement: 'Вступительный тест',
+  target_level: 'Целевой уровень',
+  passing_score: 'Проходной балл (%)',
   admin: 'Управление',
   languages: 'Языки',
   courses: 'Курсы',
@@ -64,6 +69,11 @@ const ru = {
 };
 type Labels = { [K in keyof typeof ru]: string };
 const en: Labels = {
+  'level-tests': 'Level tests',
+  'test-questions': 'Test questions',
+  is_placement: 'Placement test',
+  target_level: 'Target level',
+  passing_score: 'Passing score (%)',
   admin: 'Administration',
   languages: 'Languages',
   courses: 'Courses',
@@ -127,6 +137,11 @@ const en: Labels = {
   retry: 'Retry',
 };
 const ky: Labels = {
+  'level-tests': 'Деңгээл тесттери',
+  'test-questions': 'Тесттин суроолору',
+  is_placement: 'Баштапкы тест',
+  target_level: 'Максаттуу деңгээл',
+  passing_score: 'Өтүү упайы (%)',
   admin: 'Башкаруу',
   languages: 'Тилдер',
   courses: 'Курстар',

@@ -16,7 +16,6 @@ import { LinkButton } from '@/components/ui/link-button';
 import { ThemeSwitcher, LanguageSwitcher } from '@/components/ui/preferences';
 import { PasswordForm } from './password-form';
 import { DeleteAccount } from './delete-account';
-import { NotificationsPanel } from './notifications-panel';
 import styles from './account.module.scss';
 export function SettingsPage() {
   const { user } = useAuth();
@@ -74,7 +73,6 @@ export function SettingsPage() {
             {auth.logout}
           </Button>
         </Card>
-        <NotificationsPanel />
         <Card className={styles.danger}>
           <div>
             <h2>{t.danger}</h2>

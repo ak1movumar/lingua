@@ -11,10 +11,12 @@ export function PeopleList({
   users,
   emptyTitle,
   emptyBody,
+  hideSearch = false,
 }: {
   users: Friend[];
   emptyTitle: string;
   emptyBody: string;
+  hideSearch?: boolean;
 }) {
   const {
     messages: { social: t, learning },
@@ -26,15 +28,17 @@ export function PeopleList({
   const current = Math.min(page, pages);
   return (
     <section className={styles.list}>
-      <SearchInput
-        label={t.search}
-        placeholder={t.searchHint}
-        value={search}
-        onChange={(event) => {
-          setSearch(event.target.value);
-          setPage(1);
-        }}
-      />
+      {!hideSearch && (
+        <SearchInput
+          label={t.search}
+          placeholder={t.searchHint}
+          value={search}
+          onChange={(event) => {
+            setSearch(event.target.value);
+            setPage(1);
+          }}
+        />
+      )}
       {!users.length ? (
         <EmptyState title={emptyTitle} description={emptyBody} />
       ) : !filtered.length ? (

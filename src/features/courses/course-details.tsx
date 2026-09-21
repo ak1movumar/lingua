@@ -6,6 +6,8 @@ import { useI18n } from '@/providers/i18n-provider';
 import { Badge, Card, PageHeader, ProgressBar } from '@/components/ui/surface';
 import { LinkButton } from '@/components/ui/link-button';
 import { EmptyState } from '@/components/ui/states';
+import { placementMessages } from '@/i18n/placement';
+import { useLearningPath } from '@/features/placement/queries';
 import { LearningShell } from '@/features/learning/learning-shell';
 import {
   LearningSkeleton,
@@ -25,12 +27,15 @@ import {
 import styles from '@/features/learning/learning.module.scss';
 export function CourseDetails({ id }: { id: number }) {
   const {
+    locale,
     messages: { learning: t },
   } = useI18n();
   const course = useQuery(courseOptions(id));
   const lessons = useQuery(lessonsOptions(id));
   const languages = useQuery(languagesOptions());
   const progress = useProgress();
+  const path = useLearningPath(course.data?.language_id ?? 0);
+  const access = path.data?.courses.find((item) => item.id === id);
   const indexed = progressByLesson(progress.data ?? []);
   const stats =
     lessons.data && progress.data
@@ -65,6 +70,11 @@ export function CourseDetails({ id }: { id: number }) {
           <div className={styles.detailGrid}>
             <section className={styles.lessonList}>
               <h2>{t.lessons}</h2>
+              {path.isSuccess && !access?.is_unlocked && (
+                <p className={styles.notice}>
+                  {placementMessages[locale].locked}
+                </p>
+              )}
               {lessons.isPending ? (
                 <LearningSkeleton />
               ) : lessons.isError ? (
@@ -162,6 +172,22 @@ export function CourseDetails({ id }: { id: number }) {
                 <LinkButton variant="ghost" href="/progress">
                   {t.viewProgress}
                 </LinkButton>
+                <LinkButton variant="secondary" href="/learning-path">
+                  {placementMessages[locale].title}
+                </LinkButton>
+                {path.data?.placement_completed &&
+                  path.data.level === course.data.level && (
+                    <LinkButton
+                      href={
+                        '/level-tests/' +
+                        course.data.language_id +
+                        '?level=' +
+                        course.data.level
+                      }
+                    >
+                      {placementMessages[locale].completion}
+                    </LinkButton>
+                  )}
               </Card>
             </aside>
           </div>

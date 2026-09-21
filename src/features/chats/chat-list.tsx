@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/states';
 import { useI18n } from '@/providers/i18n-provider';
 import { useAuth } from '@/features/auth/auth-provider';
-import { usersOptions } from '@/features/social/queries';
 import { cn } from '@/lib/cn';
 import { chatsOptions, membersOptions, messagesOptions } from './queries';
 import { chatDisplayName, unreadMessages, type Chat } from './contracts';
@@ -81,7 +80,6 @@ export function ChatList({
   onCreate: () => void;
 }) {
   const query = useQuery(chatsOptions());
-  const users = useQuery(usersOptions());
   const {
     messages: { messaging: t },
   } = useI18n();
@@ -92,9 +90,7 @@ export function ChatList({
   const memberQueries = useQueries({
     queries: loaded.map((chat) => membersOptions(chat.id)),
   });
-  const names = new Map(
-    users.data?.map((person) => [person.id, person.username]),
-  );
+  const names = new Map<string, string>();
   const filtered = loaded.filter((chat, index) =>
     (
       chatDisplayName(

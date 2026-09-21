@@ -40,16 +40,15 @@ export async function getMembers(id: string, signal?: AbortSignal) {
     .parse((await api.get<unknown>(chatPath(id) + '/members', { signal })).data)
     .filter((member) => member.chat_id === id);
 }
-export async function addMember(chat: string, user: string) {
+export async function addMember(chat: string, username: string) {
   const member = memberSchema.parse(
     (
       await api.post<unknown>(chatPath(chat) + '/members', {
-        user_id: z.uuid().parse(user),
+        username: z.string().trim().min(1).parse(username),
       })
     ).data,
   );
-  if (member.chat_id !== chat || member.user_id !== user)
-    throw new Error('Member identity mismatch');
+  if (member.chat_id !== chat) throw new Error('Member identity mismatch');
   return member;
 }
 export async function removeMember(chat: string, user: string) {

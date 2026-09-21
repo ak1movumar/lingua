@@ -142,5 +142,88 @@
       "required": true,
       "format": "date"
     }
+  ],
+  "LevelTestCreate": [
+    {
+      "key": "language_id",
+      "type": "integer",
+      "required": true
+    },
+    {
+      "key": "is_placement",
+      "type": "boolean",
+      "required": true
+    },
+    {
+      "key": "target_level",
+      "type": "string",
+      "required": false,
+      "choices": ["A1", "A2", "B1", "B2", "C1", "C2"]
+    },
+    {
+      "key": "passing_score",
+      "type": "integer",
+      "required": false,
+      "initial": 70
+    },
+    {
+      "key": "is_active",
+      "type": "boolean",
+      "required": false,
+      "initial": true
+    }
+  ],
+  "LevelTestUpdate": [
+    {
+      "key": "target_level",
+      "type": "string",
+      "required": false,
+      "choices": ["A1", "A2", "B1", "B2", "C1", "C2"]
+    },
+    {
+      "key": "passing_score",
+      "type": "integer",
+      "required": false
+    },
+    {
+      "key": "is_active",
+      "type": "boolean",
+      "required": false
+    }
+  ],
+  "LevelTestQuestionCreate": [
+    {
+      "key": "level",
+      "type": "string",
+      "required": true,
+      "choices": ["A1", "A2", "B1", "B2", "C1", "C2"]
+    },
+    {
+      "key": "type",
+      "type": "string",
+      "required": true,
+      "choices": ["choice", "translate", "fill_gap", "match"]
+    },
+    {
+      "key": "question",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "options",
+      "type": "object",
+      "required": true
+    },
+    {
+      "key": "correct_answer",
+      "type": "json",
+      "required": true
+    },
+    {
+      "key": "order",
+      "type": "integer",
+      "required": false,
+      "initial": 1
+    }
   ]
 }

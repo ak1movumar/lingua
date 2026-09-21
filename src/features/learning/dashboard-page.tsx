@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/features/auth/auth-provider';
 import { useI18n } from '@/providers/i18n-provider';
+import { placementMessages } from '@/i18n/placement';
 import { PageHeader } from '@/components/ui/surface';
 import { LinkButton } from '@/components/ui/link-button';
 import { EmptyState } from '@/components/ui/states';
@@ -19,6 +20,7 @@ import styles from './learning.module.scss';
 export function DashboardPage() {
   const { user } = useAuth();
   const {
+    locale,
     messages: { learning: t },
   } = useI18n();
   const courses = useQuery(coursesOptions());
@@ -30,20 +32,29 @@ export function DashboardPage() {
         eyebrow={t.eyebrow}
         title={t.welcome + (user ? ', ' + user.username : '') + '!'}
         description={t.dashboardHint}
+        action={
+          <LinkButton href="/learning-path">
+            {placementMessages[locale].title}
+          </LinkButton>
+        }
       />
-      <ContinueLearning />
-      <Stats />
-      <div className={styles.dashboardGrid}>
-        {progress.data ? (
-          <>
-            <WeeklyActivity records={progress.data} />
-            <RecentActivity records={progress.data} />
-          </>
-        ) : progress.isError ? (
-          <LearningError onRetry={() => void progress.refetch()} />
-        ) : (
-          <LearningSkeleton />
-        )}
+      <div className={styles.dashboardLayout}>
+        <div className={styles.dashboardMain}>
+          <ContinueLearning />
+          <Stats />
+        </div>
+        <aside className={styles.dashboardAside}>
+          {progress.data ? (
+            <>
+              <WeeklyActivity records={progress.data} />
+              <RecentActivity records={progress.data} />
+            </>
+          ) : progress.isError ? (
+            <LearningError onRetry={() => void progress.refetch()} />
+          ) : (
+            <LearningSkeleton />
+          )}
+        </aside>
       </div>
       <section className={styles.section}>
         <div className={styles.sectionHeading}>

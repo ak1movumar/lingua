@@ -31,6 +31,7 @@ const message = (n: number, extra: Partial<Message> = {}): Message => ({
   id: id(n),
   chat_id: chat,
   sender_id: other,
+  sender: { id: other, username: 'Other' },
   content: 'Contract test',
   created_at: '2026-09-15T10:00:00Z',
   is_read: false,
@@ -106,9 +107,24 @@ test('chat labels derive from real members and never borrow another chat members
     created_at: '2026-09-15T00:00:00Z',
   });
   const members = [
-    { chat_id: chat, user_id: me, joined_at: '' },
-    { chat_id: chat, user_id: other, joined_at: '' },
-    { chat_id: id(9), user_id: id(8), joined_at: '' },
+    {
+      chat_id: chat,
+      user_id: me,
+      user: { id: me, username: 'Me' },
+      joined_at: '',
+    },
+    {
+      chat_id: chat,
+      user_id: other,
+      user: { id: other, username: 'Айгүл' },
+      joined_at: '',
+    },
+    {
+      chat_id: id(9),
+      user_id: id(8),
+      user: { id: id(8), username: 'Other chat' },
+      joined_at: '',
+    },
   ];
   assert.equal(
     chatDisplayName(
@@ -126,7 +142,7 @@ test('chat labels derive from real members and never borrow another chat members
   );
   assert.equal(
     chatDisplayName(record, members, new Map(), me, 'Private'),
-    other,
+    'Айгүл',
   );
 });
 test('message schema does not coerce read status or invent edited metadata', () => {

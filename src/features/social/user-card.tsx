@@ -21,7 +21,7 @@ export function UserCard({ user }: { user: Friend }) {
           </span>
         </div>
       </Link>
-      <FriendActions id={user.id} />
+      <FriendActions id={user.id} username={user.username} />
     </Card>
   );
 }

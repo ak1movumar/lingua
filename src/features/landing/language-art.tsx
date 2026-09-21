@@ -9,13 +9,34 @@ export function LanguageArt({ compact = false }: { compact?: boolean }) {
       aria-hidden="true"
     >
       <Image
-        src="/heroImage.png"
+        src="/lingora-travelers.png"
         alt=""
         fill
         priority
         sizes="(max-width: 768px) 100vw, 50vw"
-        className={styles.heroImage}
+        className={cn(styles.heroImage, styles.darkImage)}
       />
+      <Image
+        src="/lingora-travelers-light.png"
+        alt=""
+        fill
+        priority
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className={cn(styles.heroImage, styles.lightImage)}
+      />
+      {!compact && (
+        <>
+          <span className={styles.greetingOne}>
+            Hello! <small>English</small>
+          </span>
+          <span className={styles.greetingTwo}>
+            Салам! <small>Кыргызча</small>
+          </span>
+          <span className={styles.greetingThree}>
+            Bonjour! <small>Français</small>
+          </span>
+        </>
+      )}
     </div>
   );
 }

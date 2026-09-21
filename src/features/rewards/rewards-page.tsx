@@ -2,14 +2,20 @@
 import { useRewards, type RewardsSection } from './use-rewards';
 import { LearningShell } from '@/features/learning/learning-shell';
 import { useI18n } from '@/providers/i18n-provider';
-import { Card, Badge } from '@/components/ui/surface';
+import { Trophy, Medal, Flame, LockKeyhole } from 'lucide-react';
+import { Card, Badge, Avatar, PageHeader } from '@/components/ui/surface';
+import { EmptyState, ErrorState } from '@/components/ui/states';
+import { LearningSkeleton } from '@/features/learning/data-state';
 import { Button } from '@/components/ui/button';
 import { Select } from '@/components/ui/field';
 import { ConfirmDialog } from '@/components/ui/modal';
 import { labels } from '@/i18n/management';
-import styles from '@/components/ui/collection.module.scss';
+import styles from './rewards.module.scss';
 export function RewardsPage({ section }: { section: RewardsSection }) {
-  const { locale } = useI18n();
+  const {
+    locale,
+    messages: { learning },
+  } = useI18n();
   const t = labels[locale];
   const {
     user,
@@ -31,12 +37,30 @@ export function RewardsPage({ section }: { section: RewardsSection }) {
   return (
     <LearningShell active="progress">
       <div className={styles.page}>
-        <h1>{t[section]}</h1>
+        <PageHeader
+          eyebrow={t.overview}
+          title={t[section]}
+          description={learning.progressHint}
+          action={
+            <span className={styles.heroIcon}>
+              {section === 'leaderboard' ? (
+                <Trophy />
+              ) : section === 'challenges' ? (
+                <Flame />
+              ) : (
+                <Medal />
+              )}
+            </span>
+          }
+        />
         {section === 'challenges' && (
-          <Card className={styles.item}>
+          <Card className={styles.spotlight}>
+            <span className={styles.medallion}>
+              <Flame size={32} />
+            </span>
             <h2>{t.today}</h2>
             {today.isPending ? (
-              <p role="status">{t.loading}</p>
+              <LearningSkeleton />
             ) : today.isError ? (
               <>
                 <p role="alert">{t.error}</p>
@@ -55,15 +79,18 @@ export function RewardsPage({ section }: { section: RewardsSection }) {
         )}
         {section === 'leaderboard' && (
           <>
-            <p>
-              {t.rank}:{' '}
-              {rank.isPending
-                ? t.loading
-                : rank.isError
-                  ? t.error
-                  : (rank.data?.rank ?? '—')}{' '}
-              · {rank.data?.xp ?? '—'} XP
-            </p>
+            <Card className={styles.rankSummary}>
+              <Trophy size={32} />
+              <p>
+                {t.rank}:{' '}
+                {rank.isPending
+                  ? t.loading
+                  : rank.isError
+                    ? t.error
+                    : (rank.data?.rank ?? '—')}{' '}
+                · {rank.data?.xp ?? '—'} XP
+              </p>
+            </Card>
             <Select
               label={t.leaderboard}
               value={limit}
@@ -107,17 +134,46 @@ export function RewardsPage({ section }: { section: RewardsSection }) {
         {catalog.isPending ? (
           <p role="status">{t.loading}</p>
         ) : catalog.isError ? (
-          <div role="alert">
-            <p>{t.error}</p>
-            <Button onClick={() => void catalog.refetch()}>{t.retry}</Button>
-          </div>
+          <ErrorState
+            title={t.error}
+            description={t[section]}
+            retryLabel={t.retry}
+            onRetry={() => void catalog.refetch()}
+          />
         ) : !catalog.data.length ? (
-          <p>{t.empty}</p>
+          <EmptyState title={t.empty} description={t[section]} />
         ) : (
-          <div className={styles.grid}>
+          <div
+            className={section === 'leaderboard' ? styles.ranking : styles.grid}
+          >
             {catalog.data.map((item) =>
               'title' in item ? (
-                <Card key={item.id} className={styles.item}>
+                <Card
+                  key={item.id}
+                  className={styles.item}
+                  data-earned={
+                    section === 'achievements' && earned.isSuccess
+                      ? earned.data.some(
+                          (record) =>
+                            record.user_id === user?.id &&
+                            record.achievement_id === item.id,
+                        )
+                      : undefined
+                  }
+                >
+                  <span className={styles.medallion}>
+                    {section === 'challenges' ? (
+                      <Flame size={32} />
+                    ) : earned.data?.some(
+                        (record) =>
+                          record.user_id === user?.id &&
+                          record.achievement_id === item.id,
+                      ) ? (
+                      <Medal size={32} />
+                    ) : (
+                      <LockKeyhole size={28} />
+                    )}
+                  </span>
                   <h2>{item.title}</h2>
                   <p>{item.description}</p>
                   <Badge>{item.xp_reward} XP</Badge>
@@ -150,13 +206,20 @@ export function RewardsPage({ section }: { section: RewardsSection }) {
                   )}
                 </Card>
               ) : (
-                <Card key={item.user_id} className={styles.item}>
-                  <h2>
-                    #{item.rank ?? '—'} ·{' '}
-                    {users.data?.find((record) => record.id === item.user_id)
-                      ?.username ?? item.user_id}
-                  </h2>
-                  <p>{item.xp} XP</p>
+                <Card
+                  key={item.user_id}
+                  className={styles.rankRow}
+                  data-self={item.user_id === user?.id}
+                >
+                  <span
+                    className={styles.position}
+                    data-podium={item.rank != null && item.rank <= 3}
+                  >
+                    #{item.rank ?? '—'}
+                  </span>
+                  <Avatar name={item.user?.username ?? item.user_id} />
+                  <h2>{item.user?.username ?? item.user_id}</h2>
+                  <Badge tone="primary">{item.xp} XP</Badge>
                 </Card>
               ),
             )}

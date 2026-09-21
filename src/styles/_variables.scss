@@ -23,13 +23,13 @@
 
   --radius-sm: 0.5rem;
   --radius-md: 0.875rem;
-  --radius-lg: 1.25rem;
-  --radius-xl: 1.75rem;
+  --radius-lg: 1.4rem;
+  --radius-xl: 2rem;
   --radius-full: 999px;
 
   --container-width: 82rem;
   --content-width: 72rem;
-  --sidebar-width: 15rem;
+  --sidebar-width: 15.5rem;
   --header-height: 5rem;
 
   --transition-fast: 160ms ease;
@@ -51,20 +51,21 @@
 html[data-theme='light'] {
   color-scheme: light;
 
-  --color-bg: #f6f7fb;
+  --color-bg: #f5f8f7;
+  --color-hero-surface: #fff;
   --color-surface: #fff;
   --color-surface-raised: #fff;
-  --color-subtle: #f0f1f7;
+  --color-subtle: #edf3f1;
 
-  --color-text: #242638;
-  --color-muted: #666b80;
+  --color-text: #172e30;
+  --color-muted: #5c7074;
 
-  --color-primary: #6554cf;
-  --color-primary-hover: #5141b4;
-  --color-primary-soft: #efecfd;
+  --color-primary: #087654;
+  --color-primary-hover: #056347;
+  --color-primary-soft: #e2f7ee;
 
-  --color-border: #e3e5ee;
-  --color-border-strong: #c5c9d8;
+  --color-border: #dde8e4;
+  --color-border-strong: #aebfb9;
 
   --color-success: #216d62;
   --color-success-soft: #e9f5f0;
@@ -80,41 +81,11 @@ html[data-theme='light'] {
 
   --color-overlay: rgb(24 27 49 / 40%);
 
-  /* Новый фон приложения */
-  --app-background:
-    radial-gradient(
-      circle at 8% 12%,
-      rgb(101 84 207 / 14%),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 92% 15%,
-      rgb(89 159 255 / 10%),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 85% 88%,
-      rgb(245 162 58 / 9%),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 30% 95%,
-      rgb(172 135 255 / 8%),
-      transparent 28%
-    ),
-    linear-gradient(
-      135deg,
-      #f9f9ff 0%,
-      #f6f7fb 45%,
-      #f8faff 100%
-    );
-
-  --hero-gradient: linear-gradient(
-    115deg,
-    #eeebfb 0%,
-    #f0effc 50%,
-    #e8f0fc 100%
-  );
+  --color-action: #69e8b9;
+  --color-action-hover: #4dd5a3;
+  --color-on-action: #09382a;
+  --app-background: linear-gradient(150deg, #f7faf9, #f2f7f5);
+  --hero-gradient: linear-gradient(120deg, #e2f7ed, #f0f8f4 65%, #e7f1f8);
 
   --shadow-sm: 0 2px 5px rgb(31 35 68 / 3%);
   --shadow-card: 0 8px 32px rgb(31 35 68 / 4%);
@@ -128,22 +99,23 @@ html[data-theme='light'] {
 html[data-theme='dark'] {
   color-scheme: dark;
 
-  --color-bg: #111522;
-  --color-surface: #1a1f30;
-  --color-surface-raised: #232a3d;
-  --color-subtle: #23293c;
+  --color-bg: #091720;
+  --color-hero-surface: #0b1d29;
+  --color-surface: #10232e;
+  --color-surface-raised: #19323d;
+  --color-subtle: #18303b;
 
-  --color-text: #eef0fa;
-  --color-muted: #a6aec5;
+  --color-text: #edf7f4;
+  --color-muted: #aac0c5;
 
-  --color-primary: #b0a3ff;
-  --color-primary-hover: #c3b9ff;
-  --color-primary-soft: #30294b;
+  --color-primary: #6ce9ba;
+  --color-primary-hover: #95f4cf;
+  --color-primary-soft: #143a32;
 
-  --color-on-primary: #201939;
+  --color-on-primary: #07271d;
 
-  --color-border: #2d354b;
-  --color-border-strong: #525d77;
+  --color-border: #233c46;
+  --color-border-strong: #45636c;
 
   --color-success: #8bd5bc;
   --color-success-soft: #203b37;
@@ -159,41 +131,11 @@ html[data-theme='dark'] {
 
   --color-overlay: rgb(6 9 18 / 65%);
 
-  /* Новый фон приложения */
-  --app-background:
-    radial-gradient(
-      circle at 8% 12%,
-      rgb(126 99 255 / 22%),
-      transparent 32%
-    ),
-    radial-gradient(
-      circle at 92% 12%,
-      rgb(63 118 255 / 14%),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 85% 88%,
-      rgb(245 162 58 / 8%),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 25% 95%,
-      rgb(111 77 210 / 14%),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #0c1020 0%,
-      #111522 48%,
-      #10182a 100%
-    );
-
-  --hero-gradient: linear-gradient(
-    115deg,
-    #2c2649 0%,
-    #262740 50%,
-    #202f45 100%
-  );
+  --color-action: #69e8b9;
+  --color-action-hover: #95f4cf;
+  --color-on-action: #09382a;
+  --app-background: linear-gradient(150deg, #091720, #0b1d27);
+  --hero-gradient: linear-gradient(120deg, #143b34, #112a33 65%, #152b3e);
 
   --shadow-sm: 0 2px 5px rgb(3 6 14 / 8%);
   --shadow-card: 0 8px 32px rgb(3 6 14 / 10%);

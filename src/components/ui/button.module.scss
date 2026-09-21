@@ -22,11 +22,11 @@
   }
 }
 .primary {
-  background: var(--color-primary);
-  color: var(--color-on-primary);
-  box-shadow: var(--shadow-sm);
+  background: var(--color-action);
+  color: var(--color-on-action);
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--color-action), #07593e 25%);
   &:hover:not(:disabled) {
-    background: var(--color-primary-hover);
+    background: var(--color-action-hover);
   }
 }
 .secondary {

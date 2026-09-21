@@ -128,25 +128,6 @@ export interface paths {
     patch: operations['mark_message_as_read_chats__chat_id__messages__message_id__read_patch'];
     trace?: never;
   };
-  '/chats/{chat_id}/messages/{message_id}/reactions': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** Get Reactions */
-    get: operations['get_reactions_chats__chat_id__messages__message_id__reactions_get'];
-    put?: never;
-    /** Add Reaction */
-    post: operations['add_reaction_chats__chat_id__messages__message_id__reactions_post'];
-    /** Remove Reaction */
-    delete: operations['remove_reaction_chats__chat_id__messages__message_id__reactions_delete'];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/auth/register': {
     parameters: {
       query?: never;
@@ -251,6 +232,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/users/search': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Search Users */
+    get: operations['search_users_users_search_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/users/{user_id}/public': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** User Public */
+    get: operations['user_public_users__user_id__public_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/users/{user_id}': {
     parameters: {
       query?: never;
@@ -262,8 +277,7 @@ export interface paths {
     get: operations['user_detail_users__user_id__get'];
     put?: never;
     post?: never;
-    /** Deactivate User */
-    delete: operations['deactivate_user_users__user_id__delete'];
+    delete?: never;
     options?: never;
     head?: never;
     patch?: never;
@@ -867,23 +881,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/leaderboard/{user_id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** Get User Rank */
-    get: operations['get_user_rank_leaderboard__user_id__get'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/leaderboard/refresh': {
     parameters: {
       query?: never;
@@ -901,15 +898,15 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/notifications': {
+  '/leaderboard/{user_id}': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    /** Get Notifications */
-    get: operations['get_notifications_notifications_get'];
+    /** Get User Rank */
+    get: operations['get_user_rank_leaderboard__user_id__get'];
     put?: never;
     post?: never;
     delete?: never;
@@ -918,24 +915,25 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/notifications/read-all': {
+  '/level-tests': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get?: never;
+    /** Get Tests */
+    get: operations['get_tests_level_tests_get'];
     put?: never;
-    post?: never;
+    /** Create Test */
+    post: operations['create_test_level_tests_post'];
     delete?: never;
     options?: never;
     head?: never;
-    /** Mark All Read */
-    patch: operations['mark_all_read_notifications_read_all_patch'];
+    patch?: never;
     trace?: never;
   };
-  '/notifications/{notification_id}/read': {
+  '/level-tests/{test_id}': {
     parameters: {
       query?: never;
       header?: never;
@@ -943,16 +941,53 @@ export interface paths {
       cookie?: never;
     };
     get?: never;
-    put?: never;
+    /** Update Test */
+    put: operations['update_test_level_tests__test_id__put'];
     post?: never;
+    /** Delete Test */
+    delete: operations['delete_test_level_tests__test_id__delete'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/level-tests/{test_id}/questions': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Questions */
+    get: operations['get_questions_level_tests__test_id__questions_get'];
+    put?: never;
+    /** Create Question */
+    post: operations['create_question_level_tests__test_id__questions_post'];
     delete?: never;
     options?: never;
     head?: never;
-    /** Mark Notification Read */
-    patch: operations['mark_notification_read_notifications__notification_id__read_patch'];
+    patch?: never;
     trace?: never;
   };
-  '/notifications/{notification_id}': {
+  '/level-tests/questions/{question_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Update Question */
+    put: operations['update_question_level_tests_questions__question_id__put'];
+    post?: never;
+    /** Delete Question */
+    delete: operations['delete_question_level_tests_questions__question_id__delete'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/level-tests/placement/{language_id}/start': {
     parameters: {
       query?: never;
       header?: never;
@@ -961,9 +996,60 @@ export interface paths {
     };
     get?: never;
     put?: never;
+    /** Start Placement */
+    post: operations['start_placement_level_tests_placement__language_id__start_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/level-tests/completion/{language_id}/{level}/start': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Start Completion */
+    post: operations['start_completion_level_tests_completion__language_id___level__start_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/level-tests/attempts/{attempt_id}/submit': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Submit Attempt */
+    post: operations['submit_attempt_level_tests_attempts__attempt_id__submit_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/learning-path/{language_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Learning Path */
+    get: operations['get_learning_path_learning_path__language_id__get'];
+    put?: never;
     post?: never;
-    /** Delete Notification */
-    delete: operations['delete_notification_notifications__notification_id__delete'];
+    delete?: never;
     options?: never;
     head?: never;
     patch?: never;
@@ -1091,11 +1177,8 @@ export interface components {
     };
     /** ChatMemberCreate */
     ChatMemberCreate: {
-      /**
-       * User Id
-       * Format: uuid
-       */
-      user_id: string;
+      /** Username */
+      username: string;
     };
     /** ChatMemberResponse */
     ChatMemberResponse: {
@@ -1109,6 +1192,7 @@ export interface components {
        * Format: uuid
        */
       user_id: string;
+      user: components['schemas']['PublicUserSchema'];
       /**
        * Joined At
        * Format: date-time
@@ -1235,11 +1319,8 @@ export interface components {
     };
     /** FriendRequestCreate */
     FriendRequestCreate: {
-      /**
-       * Receiver Id
-       * Format: uuid
-       */
-      receiver_id: string;
+      /** Username */
+      username: string;
     };
     /** FriendRequestResponse */
     FriendRequestResponse: {
@@ -1312,6 +1393,7 @@ export interface components {
        * Format: uuid
        */
       user_id: string;
+      user: components['schemas']['PublicUserSchema'];
       /** Xp */
       xp: number;
       /** Rank */
@@ -1321,6 +1403,34 @@ export interface components {
        * Format: date-time
        */
       updated_at: string;
+    };
+    /** LearningCourseResponse */
+    LearningCourseResponse: {
+      /** Id */
+      id: number;
+      /** Language Id */
+      language_id: number;
+      /** Title */
+      title: string;
+      /** Description */
+      description: string;
+      level: components['schemas']['LevelChoices'];
+      /** Order */
+      order: number;
+      /** Is Unlocked */
+      is_unlocked: boolean;
+      /** Lessons */
+      lessons: components['schemas']['LessonResponse'][];
+    };
+    /** LearningPathResponse */
+    LearningPathResponse: {
+      /** Language Id */
+      language_id: number;
+      level: components['schemas']['LevelChoices'] | null;
+      /** Placement Completed */
+      placement_completed: boolean;
+      /** Courses */
+      courses: components['schemas']['LearningCourseResponse'][];
     };
     /** LessonCreate */
     LessonCreate: {
@@ -1365,6 +1475,172 @@ export interface components {
      * @enum {string}
      */
     LevelChoices: 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
+    /** LevelTestAnswer */
+    LevelTestAnswer: {
+      /** Question Id */
+      question_id: number;
+      /** Answer */
+      answer: unknown;
+    };
+    /** LevelTestCreate */
+    LevelTestCreate: {
+      /** Language Id */
+      language_id: number;
+      /** Is Placement */
+      is_placement: boolean;
+      target_level?: components['schemas']['LevelChoices'] | null;
+      /**
+       * Passing Score
+       * @default 70
+       */
+      passing_score: number;
+      /**
+       * Is Active
+       * @default true
+       */
+      is_active: boolean;
+    };
+    /** LevelTestQuestionAdminResponse */
+    LevelTestQuestionAdminResponse: {
+      /** Id */
+      id: number;
+      /**
+       * Test Id
+       * Format: uuid
+       */
+      test_id: string;
+      level: components['schemas']['LevelChoices'];
+      type: components['schemas']['ExerciseType'];
+      /** Question */
+      question: string;
+      /** Options */
+      options: {
+        [key: string]: unknown;
+      };
+      /** Order */
+      order: number;
+      /** Correct Answer */
+      correct_answer: unknown;
+    };
+    /** LevelTestQuestionCreate */
+    LevelTestQuestionCreate: {
+      level: components['schemas']['LevelChoices'];
+      type: components['schemas']['ExerciseType'];
+      /** Question */
+      question: string;
+      /** Options */
+      options: {
+        [key: string]: unknown;
+      };
+      /** Correct Answer */
+      correct_answer: unknown;
+      /**
+       * Order
+       * @default 1
+       */
+      order: number;
+    };
+    /** LevelTestQuestionResponse */
+    LevelTestQuestionResponse: {
+      /** Id */
+      id: number;
+      /**
+       * Test Id
+       * Format: uuid
+       */
+      test_id: string;
+      level: components['schemas']['LevelChoices'];
+      type: components['schemas']['ExerciseType'];
+      /** Question */
+      question: string;
+      /** Options */
+      options: {
+        [key: string]: unknown;
+      };
+      /** Order */
+      order: number;
+    };
+    /** LevelTestQuestionUpdate */
+    LevelTestQuestionUpdate: {
+      level?: components['schemas']['LevelChoices'] | null;
+      type?: components['schemas']['ExerciseType'] | null;
+      /** Question */
+      question?: string | null;
+      /** Options */
+      options?: {
+        [key: string]: unknown;
+      } | null;
+      /** Correct Answer */
+      correct_answer?: unknown | null;
+      /** Order */
+      order?: number | null;
+    };
+    /** LevelTestResponse */
+    LevelTestResponse: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /** Language Id */
+      language_id: number;
+      /** Is Placement */
+      is_placement: boolean;
+      target_level: components['schemas']['LevelChoices'] | null;
+      /** Passing Score */
+      passing_score: number;
+      /** Is Active */
+      is_active: boolean;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
+    };
+    /** LevelTestResultResponse */
+    LevelTestResultResponse: {
+      /**
+       * Attempt Id
+       * Format: uuid
+       */
+      attempt_id: string;
+      /** Score */
+      score: number;
+      /** Passed */
+      passed: boolean;
+      result_level: components['schemas']['LevelChoices'] | null;
+    };
+    /** LevelTestStartResponse */
+    LevelTestStartResponse: {
+      /**
+       * Attempt Id
+       * Format: uuid
+       */
+      attempt_id: string;
+      /**
+       * Test Id
+       * Format: uuid
+       */
+      test_id: string;
+      /** Is Placement */
+      is_placement: boolean;
+      target_level: components['schemas']['LevelChoices'] | null;
+      /** Questions */
+      questions: components['schemas']['LevelTestQuestionResponse'][];
+    };
+    /** LevelTestSubmit */
+    LevelTestSubmit: {
+      /** Answers */
+      answers: components['schemas']['LevelTestAnswer'][];
+    };
+    /** LevelTestUpdate */
+    LevelTestUpdate: {
+      target_level?: components['schemas']['LevelChoices'] | null;
+      /** Passing Score */
+      passing_score?: number | null;
+      /** Is Active */
+      is_active?: boolean | null;
+    };
     /** LoginSchema */
     LoginSchema: {
       /**
@@ -1397,6 +1673,7 @@ export interface components {
        * Format: uuid
        */
       sender_id: string;
+      sender: components['schemas']['PublicUserSchema'];
       /** Content */
       content: string;
       /**
@@ -1412,33 +1689,6 @@ export interface components {
       /** Content */
       content: string;
     };
-    /** NotificationResponse */
-    NotificationResponse: {
-      /** Id */
-      id: number;
-      /**
-       * User Id
-       * Format: uuid
-       */
-      user_id: string;
-      type: components['schemas']['NotificationType'];
-      /** Title */
-      title: string;
-      /** Message */
-      message: string;
-      /** Is Read */
-      is_read: boolean;
-      /**
-       * Created At
-       * Format: date-time
-       */
-      created_at: string;
-    };
-    /**
-     * NotificationType
-     * @enum {string}
-     */
-    NotificationType: 'friend_request' | 'achievement' | 'message' | 'system';
     /** ProgressResponse */
     ProgressResponse: {
       /** Id */
@@ -1464,32 +1714,15 @@ export interface components {
       /** Score */
       score?: number | null;
     };
-    /** ReactionCreate */
-    ReactionCreate: {
-      /** Reaction */
-      reaction: string;
-    };
-    /** ReactionResponse */
-    ReactionResponse: {
-      /** Id */
-      id: number;
+    /** PublicUserSchema */
+    PublicUserSchema: {
       /**
-       * Message Id
+       * Id
        * Format: uuid
        */
-      message_id: string;
-      /**
-       * User Id
-       * Format: uuid
-       */
-      user_id: string;
-      /** Reaction */
-      reaction: string;
-      /**
-       * Created At
-       * Format: date-time
-       */
-      created_at: string;
+      id: string;
+      /** Username */
+      username: string;
     };
     /** RefreshSchema */
     RefreshSchema: {
@@ -2025,110 +2258,6 @@ export interface operations {
       };
     };
   };
-  get_reactions_chats__chat_id__messages__message_id__reactions_get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        chat_id: string;
-        message_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['ReactionResponse'][];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['HTTPValidationError'];
-        };
-      };
-    };
-  };
-  add_reaction_chats__chat_id__messages__message_id__reactions_post: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        chat_id: string;
-        message_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ReactionCreate'];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['ReactionResponse'];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['HTTPValidationError'];
-        };
-      };
-    };
-  };
-  remove_reaction_chats__chat_id__messages__message_id__reactions_delete: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        chat_id: string;
-        message_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ReactionCreate'];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['HTTPValidationError'];
-        };
-      };
-    };
-  };
   register_auth_register_post: {
     parameters: {
       query?: never;
@@ -2354,6 +2483,68 @@ export interface operations {
       };
     };
   };
+  search_users_users_search_get: {
+    parameters: {
+      query: {
+        q: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PublicUserSchema'][];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  user_public_users__user_id__public_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        user_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PublicUserSchema'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
   user_detail_users__user_id__get: {
     parameters: {
       query?: never;
@@ -2372,37 +2563,6 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['UserResponseSchema'];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['HTTPValidationError'];
-        };
-      };
-    };
-  };
-  deactivate_user_users__user_id__delete: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        user_id: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
         };
       };
       /** @description Validation Error */
@@ -4035,6 +4195,26 @@ export interface operations {
       };
     };
   };
+  refresh_leaderboard_leaderboard_refresh_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
   get_user_rank_leaderboard__user_id__get: {
     parameters: {
       query?: never;
@@ -4066,9 +4246,11 @@ export interface operations {
       };
     };
   };
-  refresh_leaderboard_leaderboard_refresh_post: {
+  get_tests_level_tests_get: {
     parameters: {
-      query?: never;
+      query?: {
+        language_id?: number | null;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -4081,69 +4263,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
-  get_notifications_notifications_get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['NotificationResponse'][];
-        };
-      };
-    };
-  };
-  mark_all_read_notifications_read_all_patch: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-    };
-  };
-  mark_notification_read_notifications__notification_id__read_patch: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        notification_id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['NotificationResponse'];
+          'application/json': components['schemas']['LevelTestResponse'][];
         };
       };
       /** @description Validation Error */
@@ -4157,12 +4277,80 @@ export interface operations {
       };
     };
   };
-  delete_notification_notifications__notification_id__delete: {
+  create_test_level_tests_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LevelTestCreate'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['LevelTestResponse'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  update_test_level_tests__test_id__put: {
     parameters: {
       query?: never;
       header?: never;
       path: {
-        notification_id: number;
+        test_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LevelTestUpdate'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['LevelTestResponse'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_test_level_tests__test_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        test_id: string;
       };
       cookie?: never;
     };
@@ -4175,6 +4363,267 @@ export interface operations {
         };
         content: {
           'application/json': unknown;
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_questions_level_tests__test_id__questions_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        test_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['LevelTestQuestionAdminResponse'][];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  create_question_level_tests__test_id__questions_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        test_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LevelTestQuestionCreate'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['LevelTestQuestionAdminResponse'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  update_question_level_tests_questions__question_id__put: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        question_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LevelTestQuestionUpdate'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['LevelTestQuestionAdminResponse'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_question_level_tests_questions__question_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        question_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  start_placement_level_tests_placement__language_id__start_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        language_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['LevelTestStartResponse'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  start_completion_level_tests_completion__language_id___level__start_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        language_id: number;
+        level: components['schemas']['LevelChoices'];
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['LevelTestStartResponse'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  submit_attempt_level_tests_attempts__attempt_id__submit_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        attempt_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LevelTestSubmit'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['LevelTestResultResponse'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_learning_path_learning_path__language_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        language_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['LearningPathResponse'];
         };
       };
       /** @description Validation Error */

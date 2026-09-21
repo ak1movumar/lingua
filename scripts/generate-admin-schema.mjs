@@ -7,6 +7,9 @@ const names = [
   'ExerciseCreate',
   'AchievementCreate',
   'ChallengeCreate',
+  'LevelTestCreate',
+  'LevelTestUpdate',
+  'LevelTestQuestionCreate',
 ];
 const resolve = (schema) =>
   schema.$ref

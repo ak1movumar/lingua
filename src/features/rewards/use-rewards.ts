@@ -21,6 +21,7 @@ const earnedSchema = z.object({
 const rankSchema = z.object({
   user_id: z.string(),
   xp: z.number().int(),
+  user: z.object({ id: z.string(), username: z.string() }).optional(),
   rank: z.number().int().nullable().optional(),
 });
 const userSchema = z.object({ id: z.string(), username: z.string() });
@@ -81,7 +82,7 @@ export function useRewards(section: RewardsSection) {
     queryKey: ['reward-users', user?.id],
     queryFn: async ({ signal }) =>
       z.array(userSchema).parse((await api.get('/users/', { signal })).data),
-    enabled: section === 'leaderboard' || user?.role === 'admin',
+    enabled: user?.role === 'admin',
   });
   const mutation = useMutation({
     retry: false,

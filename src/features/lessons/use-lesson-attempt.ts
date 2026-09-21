@@ -65,6 +65,7 @@ export function useLessonAttempt(
     if (shouldCompleteLesson(index, items.length, correct)) {
       setFinished(true);
       void Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['learning-path'] }),
         queryClient.invalidateQueries({ queryKey: queryKeys.progress }),
         queryClient.invalidateQueries({ queryKey: ['xp'] }),
         queryClient.invalidateQueries({ queryKey: ['streak'] }),

@@ -1,5 +1,7 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
+import { useState, useDeferredValue } from 'react';
+import { SearchInput } from '@/components/ui/field';
 import { UsersRound } from 'lucide-react';
 import { getApiFailure } from '@/services/api/errors';
 import { friendshipMessages } from '@/i18n/friendship';
@@ -13,7 +15,8 @@ import { SocialError, SocialSkeleton } from './social-state';
 import { PeopleList } from './people-list';
 import styles from './social.module.scss';
 export function CommunityPage() {
-  const query = useQuery(usersOptions());
+  const [search, setSearch] = useState('');
+  const query = useQuery(usersOptions(useDeferredValue(search.trim())));
   const { user } = useAuth();
   const {
     locale,
@@ -39,6 +42,12 @@ export function CommunityPage() {
           <p>{t.bannerBody}</p>
         </div>
       </div>
+      <SearchInput
+        label={t.search}
+        placeholder={t.searchHint}
+        value={search}
+        onChange={(event) => setSearch(event.target.value)}
+      />
       {query.isPending ? (
         <SocialSkeleton />
       ) : query.isError ? (
@@ -49,6 +58,7 @@ export function CommunityPage() {
         )
       ) : (
         <PeopleList
+          hideSearch
           users={query.data.filter((person) => person.id !== user?.id)}
           emptyTitle={t.noUsers}
           emptyBody={t.noUsersBody}

@@ -2,6 +2,8 @@
 import { useAuth } from '@/features/auth/auth-provider';
 import { useI18n } from '@/providers/i18n-provider';
 import { labels } from '@/i18n/management';
+import { EmptyState, ErrorState } from '@/components/ui/states';
+import { LearningSkeleton } from '@/features/learning/data-state';
 import { Button } from '@/components/ui/button';
 import styles from '@/components/ui/collection.module.scss';
 import { useState } from 'react';
@@ -11,10 +13,16 @@ import { sessionStore } from '@/features/auth/session';
 import { Input } from '@/components/ui/field';
 import { Card } from '@/components/ui/surface';
 import { ConfirmDialog } from '@/components/ui/modal';
-import { getResourceRows, type Resource } from './resources';
+import { getResourceRows, resourceItemPath, type Resource } from './resources';
 import { type Row } from './model';
 import { ResourceEditor } from './resource-editor';
-export function ResourcePanel({ resource }: { resource: Resource }) {
+export function ResourcePanel({
+  resource,
+  parentTest,
+}: {
+  resource: Resource;
+  parentTest?: string;
+}) {
   const { locale } = useI18n();
   const t = labels[locale];
   const { user } = useAuth();
@@ -23,16 +31,17 @@ export function ResourcePanel({ resource }: { resource: Resource }) {
   const [limit, setLimit] = useState(20);
   const [editor, setEditor] = useState<Row | 'new' | null>(null);
   const [deleting, setDeleting] = useState<Row | null>(null);
+  const [test, setTest] = useState<string | null>(null);
   const query = useQuery({
-    queryKey: ['admin', resource, user?.id],
-    queryFn: ({ signal }) => getResourceRows(resource, signal),
+    queryKey: ['admin', resource, user?.id, parentTest],
+    queryFn: ({ signal }) => getResourceRows(resource, signal, parentTest),
     enabled: user?.role === 'admin',
   });
   const mutation = useMutation({
     retry: false,
     mutationFn: async (row: Row) => {
       const generation = sessionStore.getSnapshot().generation;
-      await api.delete('/' + resource + '/' + encodeURIComponent(row.id));
+      await api.delete(resourceItemPath(resource, row.id));
       return generation;
     },
     onSuccess: async (generation) => {
@@ -66,14 +75,16 @@ export function ResourcePanel({ resource }: { resource: Resource }) {
         )}
       </div>
       {query.isPending ? (
-        <p role="status">{t.loading}</p>
+        <LearningSkeleton />
       ) : query.isError ? (
-        <div role="alert">
-          <p>{t.error}</p>
-          <Button onClick={() => void query.refetch()}>{t.retry}</Button>
-        </div>
+        <ErrorState
+          title={t.error}
+          description={t[resource]}
+          retryLabel={t.retry}
+          onRetry={() => void query.refetch()}
+        />
       ) : !filtered.length ? (
-        <p>{t.empty}</p>
+        <EmptyState title={t.empty} description={t[resource]} />
       ) : (
         <div className={styles.grid}>
           {filtered.slice(0, limit).map((row) => (
@@ -103,6 +114,14 @@ export function ResourcePanel({ resource }: { resource: Resource }) {
                   ))}
               </dl>
               <div className={styles.actions}>
+                {resource === 'level-tests' && (
+                  <Button
+                    variant="secondary"
+                    onClick={() => setTest(String(row.id))}
+                  >
+                    {t['test-questions']}
+                  </Button>
+                )}
                 <Button variant="secondary" onClick={() => setEditor(row)}>
                   {t.edit}
                 </Button>
@@ -124,9 +143,13 @@ export function ResourcePanel({ resource }: { resource: Resource }) {
       {filtered.length > limit && (
         <Button onClick={() => setLimit(limit + 20)}>{t.more}</Button>
       )}
+      {resource === 'level-tests' && test && (
+        <ResourcePanel key={test} resource="test-questions" parentTest={test} />
+      )}
       {editor && (
         <ResourceEditor
           resource={resource}
+          parentTest={parentTest}
           row={editor}
           onClose={() => setEditor(null)}
         />

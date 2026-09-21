@@ -107,3 +107,74 @@
     width: 100%;
   }
 }
+
+.exercise {
+  width: min(100%, 44rem);
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+.header {
+  margin-bottom: 3rem;
+}
+.controls {
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+@media (max-width: 48rem) {
+  .header {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.workspace {
+  background: radial-gradient(
+    ellipse at top,
+    var(--color-primary-soft),
+    transparent 65%
+  );
+}
+.header {
+  padding: 1rem 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1.25rem;
+}
+.exercise {
+  border-top: 4px solid var(--color-primary);
+}
+.exercise textarea {
+  min-height: 150px;
+  background: var(--color-subtle);
+}
+.complete {
+  background: var(--hero-gradient);
+  border-radius: 2rem;
+  > svg {
+    width: 84px;
+    height: 84px;
+    padding: 18px;
+    background: var(--color-surface);
+    border-radius: 50%;
+  }
+}
+.complete > button,
+.complete > a {
+  margin: 0.5rem;
+}
+.controls > button {
+  min-width: 140px;
+}
+@media (max-width: 48rem) {
+  .header {
+    padding: 0.75rem;
+  }
+  .exercise {
+    border-radius: 1.25rem;
+  }
+  .controls > button {
+    min-width: 0;
+  }
+}

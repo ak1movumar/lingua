@@ -68,7 +68,11 @@ const pairs = [
   ['muted', 'bg'],
   ['text', 'surface'],
   ['muted', 'surface'],
+  ['text', 'hero-surface'],
+  ['muted', 'hero-surface'],
+  ['primary', 'hero-surface'],
   ['on-primary', 'primary'],
+  ['on-action', 'action'],
   ...['primary', 'success', 'warning', 'danger', 'info'].map((tone) => [
     tone,
     tone + '-soft',

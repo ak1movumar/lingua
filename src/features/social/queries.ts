@@ -18,10 +18,10 @@ import {
   respondToRequest,
   removeFriend,
 } from './api';
-export const usersOptions = () =>
+export const usersOptions = (search = '') =>
   queryOptions({
-    queryKey: queryKeys.users,
-    queryFn: ({ signal }) => getUsers(signal),
+    queryKey: [...queryKeys.users, search],
+    queryFn: ({ signal }) => getUsers(signal, search),
     retry: (count, error) => getApiFailure(error).status !== 403 && count < 1,
   });
 export const userOptions = (id: string) =>
@@ -46,7 +46,7 @@ export function useRelationships() {
   return { friends, requests, ready: friends.isSuccess && requests.isSuccess };
 }
 export type SocialAction =
-  | { type: 'send'; id: string }
+  | { type: 'send'; id: string; username: string }
   | { type: 'remove'; id: string }
   | { type: 'accept' | 'reject'; id: number };
 
@@ -60,7 +60,7 @@ export function useSocialAction(targetId?: string | number) {
     retry: false,
     onMutate: () => sessionStore.getSnapshot().generation,
     mutationFn: async (action: SocialAction) => {
-      if (action.type === 'send') return sendRequest(action.id);
+      if (action.type === 'send') return sendRequest(action.username);
       if (action.type === 'remove') return removeFriend(action.id);
       return respondToRequest(action.id, action.type);
     },

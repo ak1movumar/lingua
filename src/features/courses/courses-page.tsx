@@ -5,6 +5,8 @@ import { useI18n } from '@/providers/i18n-provider';
 import { PageHeader } from '@/components/ui/surface';
 import { SearchInput, Select } from '@/components/ui/field';
 import { Button } from '@/components/ui/button';
+import { LinkButton } from '@/components/ui/link-button';
+import { placementMessages } from '@/i18n/placement';
 import { EmptyState } from '@/components/ui/states';
 import { LearningShell } from '@/features/learning/learning-shell';
 import {
@@ -21,6 +23,7 @@ import { courseSchema } from './catalog-api';
 import styles from '@/features/learning/learning.module.scss';
 export function CoursesPage() {
   const {
+    locale,
     messages: { learning: t },
   } = useI18n();
   const courses = useQuery(coursesOptions());
@@ -54,6 +57,11 @@ export function CoursesPage() {
         eyebrow={t.eyebrow}
         title={t.catalog}
         description={t.catalogHint}
+        action={
+          <LinkButton href="/learning-path">
+            {placementMessages[locale].title}
+          </LinkButton>
+        }
       />
       <div className={styles.filters}>
         <SearchInput

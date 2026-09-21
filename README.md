@@ -68,11 +68,11 @@ docs/                   Контракт API и технические заме�
 
 ## Разделы
 
-- Обучение: `/dashboard`, `/courses`, `/courses/[id]`, `/lessons/[id]`, `/progress`.
+- Обучение: `/dashboard`, `/courses`, `/courses/[id]`, `/lessons/[id]`, `/progress`, `/learning-path`, `/level-tests/[id]`.
 - Общение: `/community`, `/friends`, `/users/[id]`, `/chats`, `/chats/[id]`.
 - Аккаунт: `/profile`, `/settings`.
 - Награды: `/achievements`, `/challenges`, `/leaderboard`.
-- Управление: `/admin`. Импорт подготовленного курса: `/admin/import`.
+- Управление: `/admin`, включая тесты уровня и вопросы. Импорт подготовленного курса: `/admin/import`.
 - Публичные примеры: `/exercise-preview`, `/design-system`.
 
 ## Документация

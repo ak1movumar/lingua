@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { api } from '@/services/api/client';
-import type { components } from '@/types/api.generated';
 export const notificationSchema = z.object({
   id: z.number().int(),
   user_id: z.uuid(),
@@ -9,7 +8,7 @@ export const notificationSchema = z.object({
   message: z.string(),
   is_read: z.boolean(),
   created_at: z.string(),
-}) satisfies z.ZodType<components['schemas']['NotificationResponse']>;
+});
 export async function getNotifications(userId: string, signal?: AbortSignal) {
   return z
     .array(notificationSchema)

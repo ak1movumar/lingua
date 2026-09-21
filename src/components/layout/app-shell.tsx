@@ -55,7 +55,7 @@ export function AppShell({
         </main>
         <footer className={styles.footer}>
           {studio.footer}
-          <span>© {new Date().getFullYear()} Lingua</span>
+          <span>© {new Date().getFullYear()} Lingora</span>
         </footer>
       </div>
       <MobileBottomNav active={active} onNavigate={onNavigate} />

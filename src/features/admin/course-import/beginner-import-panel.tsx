@@ -8,7 +8,7 @@ import { useAuth } from '@/features/auth/auth-provider';
 import { sessionStore } from '@/features/auth/session';
 import { useI18n } from '@/providers/i18n-provider';
 import { Button } from '@/components/ui/button';
-import { Card, ProgressBar } from '@/components/ui/surface';
+import { Card, PageHeader, ProgressBar } from '@/components/ui/surface';
 import { LinkButton } from '@/components/ui/link-button';
 import { beginnerCourse } from './beginner-course';
 import { importBeginnerCourse } from './import-beginner-course';
@@ -126,8 +126,11 @@ export function BeginnerImportPanel() {
   };
   return (
     <Card className={styles.item}>
-      <h2>{t.title}</h2>
-      <p>{t.description}</p>
+      <PageHeader
+        eyebrow="Lingora"
+        title={t.title}
+        description={t.description}
+      />
       <details>
         <summary>12 · A1</summary>
         <ol>

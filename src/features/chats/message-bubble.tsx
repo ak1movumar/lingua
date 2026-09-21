@@ -9,7 +9,6 @@ import { Textarea } from '@/components/ui/field';
 import { cn } from '@/lib/cn';
 import { useMessageAction } from './queries';
 import type { Message } from './contracts';
-import { ReactionPicker } from './reaction-picker';
 import styles from './chat.module.scss';
 export function MessageBubble({
   message,
@@ -104,11 +103,6 @@ export function MessageBubble({
         </div>
       </div>
       <div className={styles.messageTools}>
-        <ReactionPicker
-          chat={message.chat_id}
-          message={message.id}
-          visible={visible}
-        />
         {own && (
           <>
             <IconButton

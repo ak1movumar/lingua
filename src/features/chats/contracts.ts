@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { components } from '@/types/api.generated';
+import { friendSchema } from '@/features/social/contracts';
 export const chatSchema = z.object({
   id: z.uuid(),
   type: z.enum(['private', 'group']),
@@ -9,12 +10,14 @@ export const chatSchema = z.object({
 export const memberSchema = z.object({
   chat_id: z.uuid(),
   user_id: z.uuid(),
+  user: friendSchema,
   joined_at: z.string(),
 }) satisfies z.ZodType<components['schemas']['ChatMemberResponse']>;
 export const messageSchema = z.object({
   id: z.uuid(),
   chat_id: z.uuid(),
   sender_id: z.uuid(),
+  sender: friendSchema,
   content: z.string(),
   created_at: z.string(),
   is_read: z.boolean(),
@@ -25,7 +28,7 @@ export const reactionSchema = z.object({
   user_id: z.uuid(),
   reaction: z.string(),
   created_at: z.string(),
-}) satisfies z.ZodType<components['schemas']['ReactionResponse']>;
+});
 export type Chat = z.infer<typeof chatSchema>;
 export type ChatMember = z.infer<typeof memberSchema>;
 export type Message = z.infer<typeof messageSchema>;
@@ -99,7 +102,10 @@ export function chatDisplayName(
   );
   return others.length
     ? others
-        .map((member) => names.get(member.user_id) ?? member.user_id)
+        .map(
+          (member) =>
+            member.user.username || names.get(member.user_id) || member.user_id,
+        )
         .join(', ')
     : fallback;
 }

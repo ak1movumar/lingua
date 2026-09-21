@@ -13,6 +13,7 @@ import { Modal, ConfirmDialog } from '@/components/ui/modal';
 import {
   resources,
   resourcePath,
+  resourceItemPath,
   getResourceRows,
   type Resource,
 } from './resources';
@@ -20,10 +21,12 @@ import fieldsData from './fields.json';
 import { buildPayload, type Field, type Row } from './model';
 export function ResourceEditor({
   resource,
+  parentTest,
   row,
   onClose,
 }: {
   resource: Resource;
+  parentTest?: string;
   row: Row | 'new';
   onClose: () => void;
 }) {
@@ -32,7 +35,10 @@ export function ResourceEditor({
   const { user } = useAuth();
   const client = useQueryClient();
   const lock = useRef(false);
-  const schemaName = resources[resource];
+  const schemaName =
+    resource === 'level-tests' && row !== 'new'
+      ? 'LevelTestUpdate'
+      : resources[resource];
   const fields: Field[] = schemaName
     ? fieldsData[schemaName]
     : [
@@ -50,9 +56,10 @@ export function ResourceEditor({
         const value = row === 'new' ? field.initial : row[field.key];
         return [
           field.key,
-          value === undefined || value === null
+          value === undefined ||
+          (value === null && !['json', 'object'].includes(field.type))
             ? ''
-            : typeof value === 'object'
+            : field.type === 'json' || typeof value === 'object'
               ? JSON.stringify(value, null, 2)
               : String(value),
         ];
@@ -63,7 +70,7 @@ export function ResourceEditor({
   const [discard, setDiscard] = useState(false);
   const [dirty, setDirty] = useState(false);
   const parent: Resource | null =
-    resource === 'courses'
+    resource === 'courses' || resource === 'level-tests'
       ? 'languages'
       : resource === 'lessons'
         ? 'courses'
@@ -88,8 +95,9 @@ export function ResourceEditor({
           await api.patch('/users/' + row.id + '/active', {
             is_active: payload.is_active,
           });
-      } else if (row === 'new') await api.post(resourcePath(resource), payload);
-      else await api.put('/' + resource + '/' + row.id, payload);
+      } else if (row === 'new')
+        await api.post(resourcePath(resource, parentTest), payload);
+      else await api.put(resourceItemPath(resource, row.id), payload);
       return generation;
     },
     onSuccess: async (generation) => {
@@ -121,6 +129,30 @@ export function ResourceEditor({
             setInvalid(false);
             try {
               const payload = buildPayload(fields, values, row !== 'new');
+              if (resource === 'level-tests') {
+                if (
+                  payload.passing_score !== undefined &&
+                  (Number(payload.passing_score) < 1 ||
+                    Number(payload.passing_score) > 100)
+                )
+                  throw new Error('Invalid passing score');
+                if (
+                  row === 'new' &&
+                  payload.is_placement === false &&
+                  !payload.target_level
+                )
+                  throw new Error('Target level required');
+                if (row === 'new' && payload.is_placement === true)
+                  payload.target_level = null;
+                if (row !== 'new' && !values.target_level)
+                  payload.target_level = null;
+              }
+              if (
+                resource === 'test-questions' &&
+                payload.order !== undefined &&
+                Number(payload.order) < 1
+              )
+                throw new Error('Invalid order');
               lock.current = true;
               mutation.mutate(payload);
             } catch {
@@ -128,7 +160,7 @@ export function ResourceEditor({
             }
           }}
         >
-          {resource === 'exercises' && (
+          {(resource === 'exercises' || resource === 'test-questions') && (
             <p className={styles.muted}>{t.jsonHint}</p>
           )}
           {fields.map((field) => {
@@ -140,7 +172,9 @@ export function ResourceEditor({
                 mutation.isPending ||
                 (resource === 'users' && row !== 'new' && row.id === user?.id),
               required:
-                field.required &&
+                (field.required ||
+                  (resource === 'test-questions' &&
+                    field.key === 'question')) &&
                 !(row !== 'new' && field.key === 'correct_answer'),
               onChange: (
                 event: React.ChangeEvent<

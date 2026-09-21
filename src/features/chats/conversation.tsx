@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, UsersRound } from 'lucide-react';
 import { useAuth } from '@/features/auth/auth-provider';
-import { usersOptions } from '@/features/social/queries';
 import { useI18n } from '@/providers/i18n-provider';
 import { LinkButton } from '@/components/ui/link-button';
 import { Button, IconButton } from '@/components/ui/button';
@@ -19,7 +18,6 @@ import styles from './chat.module.scss';
 export function Conversation({ id }: { id: string }) {
   const chat = useQuery(chatOptions(id));
   const members = useQuery(membersOptions(id));
-  const users = useQuery(usersOptions());
   const messages = useQuery({
     ...messagesOptions(id, true),
     enabled: chat.isSuccess,
@@ -34,7 +32,7 @@ export function Conversation({ id }: { id: string }) {
   const viewport = useRef<HTMLDivElement>(null);
   const stick = useRef(true);
   const names = new Map(
-    users.data?.map((person) => [person.id, person.username]),
+    members.data?.map((member) => [member.user_id, member.user.username]),
   );
   const title = chat.data
     ? chatDisplayName(
@@ -125,7 +123,7 @@ export function Conversation({ id }: { id: string }) {
                   )}
                   <MessageBubble
                     message={message}
-                    name={names.get(message.sender_id) ?? message.sender_id}
+                    name={message.sender.username}
                   />
                 </div>
               );

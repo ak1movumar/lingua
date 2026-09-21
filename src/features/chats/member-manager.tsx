@@ -1,13 +1,11 @@
 'use client';
-import { useRef, useState } from 'react';
-import { z } from 'zod';
-import { getApiFailure } from '@/services/api/errors';
+import { useRef, useState, useDeferredValue } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/features/auth/auth-provider';
-import { usersOptions } from '@/features/social/queries';
+import { usersOptions, userOptions } from '@/features/social/queries';
 import { useI18n } from '@/providers/i18n-provider';
 import { Button } from '@/components/ui/button';
-import { Input, SearchInput, Select } from '@/components/ui/field';
+import { SearchInput, Select } from '@/components/ui/field';
 import { ConfirmDialog } from '@/components/ui/modal';
 import { queryKeys } from '@/constants/query-keys';
 import { membersOptions } from './queries';
@@ -22,21 +20,40 @@ export function MemberManager({
   initialUser?: string;
 }) {
   const { user } = useAuth();
-  const members = useQuery(membersOptions(chat));
-  const users = useQuery(usersOptions());
   const {
     messages: { messaging: t },
   } = useI18n();
-  const [selected, setSelected] = useState(initialUser);
+  const members = useQuery(membersOptions(chat));
   const [search, setSearch] = useState('');
+  const users = useQuery(usersOptions(useDeferredValue(search.trim())));
+  const initial = useQuery({
+    ...userOptions(initialUser),
+    enabled: !!initialUser,
+  });
+  const [selected, setSelected] = useState(initialUser);
   const [removing, setRemoving] = useState<string | null>(null);
   const lock = useRef(false);
   const client = useQueryClient();
+  const candidates = [
+    ...new Map(
+      [...(users.data ?? []), ...(initial.data ? [initial.data] : [])].map(
+        (person) => [person.id, person],
+      ),
+    ).values(),
+  ].filter(
+    (person) => !members.data?.some((member) => member.user_id === person.id),
+  );
   const mutation = useMutation({
     retry: false,
-    mutationFn: async ({ id, remove }: { id: string; remove: boolean }) => {
-      if (remove) await removeMember(chat, id);
-      else await addMember(chat, id);
+    mutationFn: async ({
+      value,
+      remove,
+    }: {
+      value: string;
+      remove: boolean;
+    }) => {
+      if (remove) await removeMember(chat, value);
+      else await addMember(chat, value);
     },
     onSuccess: () => {
       setRemoving(null);
@@ -50,18 +67,11 @@ export function MemberManager({
       lock.current = false;
     },
   });
-  const run = (id: string, remove: boolean) => {
+  const run = (value: string, remove: boolean) => {
     if (lock.current || mutation.isPending) return;
     lock.current = true;
-    mutation.mutate({ id, remove });
+    mutation.mutate({ value, remove });
   };
-  const candidates = (users.data ?? []).filter(
-    (person) =>
-      !members.data?.some((member) => member.user_id === person.id) &&
-      person.username
-        .toLocaleLowerCase()
-        .includes(search.trim().toLocaleLowerCase()),
-  );
   return (
     <div className={styles.memberPanel}>
       {members.isPending ? (
@@ -72,10 +82,7 @@ export function MemberManager({
         <ul className={styles.memberList}>
           {members.data.map((member) => (
             <li key={member.user_id}>
-              <span>
-                {users.data?.find((person) => person.id === member.user_id)
-                  ?.username ?? member.user_id}
-              </span>
+              <span>{member.user.username}</span>
               <Button
                 variant="ghost"
                 disabled={mutation.isPending}
@@ -90,88 +97,44 @@ export function MemberManager({
           ))}
         </ul>
       )}
-      <p className={styles.hint}>{t.memberHint}</p>
-      {users.isPending ? (
-        <ChatLoading />
-      ) : users.isError ? (
-        getApiFailure(users.error).status === 403 ? (
-          <form
-            className={styles.memberForm}
-            onSubmit={(event) => {
-              event.preventDefault();
-              const id = selected.trim().toLowerCase();
-              if (
-                z.uuid().safeParse(id).success &&
-                members.isSuccess &&
-                !members.data.some((member) => member.user_id === id)
-              )
-                run(id, false);
-            }}
-          >
-            <Input
-              label={t.person + ' · ID'}
-              value={selected}
-              onChange={(event) => setSelected(event.target.value)}
-              disabled={mutation.isPending}
-              autoComplete="off"
-              spellCheck={false}
-            />
-            <Button
-              type="submit"
-              loading={mutation.isPending}
-              disabled={
-                !z.uuid().safeParse(selected.trim().toLowerCase()).success ||
-                !members.isSuccess ||
-                members.data?.some(
-                  (member) => member.user_id === selected.trim().toLowerCase(),
-                )
-              }
-            >
-              {t.addMember}
-            </Button>
-          </form>
-        ) : (
-          <ChatError retry={() => void users.refetch()} />
-        )
-      ) : (
-        <form
-          className={styles.memberForm}
-          onSubmit={(event) => {
-            event.preventDefault();
-            if (selected && members.isSuccess) run(selected, false);
-          }}
+      <form
+        className={styles.memberForm}
+        onSubmit={(event) => {
+          event.preventDefault();
+          const person = candidates.find((person) => person.id === selected);
+          if (person && members.isSuccess) run(person.username, false);
+        }}
+      >
+        <SearchInput
+          label={t.searchPeople}
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+        />
+        {users.isError && <ChatError retry={() => void users.refetch()} />}
+        <Select
+          label={t.person}
+          value={selected}
+          onChange={(event) => setSelected(event.target.value)}
+          disabled={mutation.isPending || !members.isSuccess}
         >
-          <SearchInput
-            label={t.searchPeople}
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
-          <Select
-            label={t.person}
-            value={selected}
-            onChange={(event) => setSelected(event.target.value)}
-            disabled={mutation.isPending || !members.isSuccess}
-          >
-            <option value="">{t.choosePerson}</option>
-            {candidates.map((person) => (
-              <option value={person.id} key={person.id}>
-                {person.username}
-              </option>
-            ))}
-          </Select>
-          <Button
-            type="submit"
-            disabled={
-              !selected ||
-              !members.isSuccess ||
-              !candidates.some((person) => person.id === selected)
-            }
-            loading={mutation.isPending}
-          >
-            {t.addMember}
-          </Button>
-        </form>
-      )}
+          <option value="">{t.choosePerson}</option>
+          {candidates.map((person) => (
+            <option key={person.id} value={person.id}>
+              {person.username}
+            </option>
+          ))}
+        </Select>
+        <Button
+          type="submit"
+          loading={mutation.isPending}
+          disabled={
+            !members.isSuccess ||
+            !candidates.some((person) => person.id === selected)
+          }
+        >
+          {t.addMember}
+        </Button>
+      </form>
       {mutation.isError && (
         <p role="alert" className={styles.error}>
           {t.actionError}
