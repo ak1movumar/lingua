@@ -5,13 +5,15 @@ import { labels } from '@/i18n/management';
 import { EmptyState, ErrorState } from '@/components/ui/states';
 import { LearningSkeleton } from '@/features/learning/data-state';
 import { Button } from '@/components/ui/button';
-import styles from '@/components/ui/collection.module.scss';
+import styles from './admin.module.scss';
+import { Plus, Pencil, Trash2, ArrowLeft, ListChecks } from 'lucide-react';
+import { resourceIcons, adminCopy } from './presentation';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/services/api/client';
 import { sessionStore } from '@/features/auth/session';
-import { Input } from '@/components/ui/field';
-import { Card } from '@/components/ui/surface';
+import { SearchInput } from '@/components/ui/field';
+import { Card, Badge } from '@/components/ui/surface';
 import { ConfirmDialog } from '@/components/ui/modal';
 import { getResourceRows, resourceItemPath, type Resource } from './resources';
 import { type Row } from './model';
@@ -25,6 +27,8 @@ export function ResourcePanel({
 }) {
   const { locale } = useI18n();
   const t = labels[locale];
+  const copy = adminCopy[locale];
+  const Icon = resourceIcons[resource];
   const { user } = useAuth();
   const client = useQueryClient();
   const [search, setSearch] = useState('');
@@ -58,11 +62,32 @@ export function ResourcePanel({
           .includes(search.toLocaleLowerCase()),
     ),
   );
+  if (resource === 'level-tests' && test)
+    return (
+      <div className={styles.panel}>
+        <Button variant="ghost" onClick={() => setTest(null)}>
+          <ArrowLeft size={16} />
+          {copy.back}
+        </Button>
+        <ResourcePanel key={test} resource="test-questions" parentTest={test} />
+      </div>
+    );
   return (
     <section className={styles.page}>
-      <h2>{t[resource]}</h2>
-      <div className={styles.actions}>
-        <Input
+      <header className={styles.panelHeader}>
+        <span className={styles.resourceIcon}>
+          <Icon size={24} />
+        </span>
+        <div>
+          <h2>{t[resource]}</h2>
+          <p>
+            {copy.records}: {query.data?.length ?? '—'}
+            {parentTest ? ` · #${parentTest}` : ''}
+          </p>
+        </div>
+      </header>
+      <div className={styles.toolbar}>
+        <SearchInput
           label={t.search}
           value={search}
           onChange={(event) => {
@@ -71,7 +96,10 @@ export function ResourcePanel({
           }}
         />
         {resource !== 'users' && (
-          <Button onClick={() => setEditor('new')}>{t.create}</Button>
+          <Button onClick={() => setEditor('new')}>
+            <Plus size={18} />
+            {t.create}
+          </Button>
         )}
       </div>
       {query.isPending ? (
@@ -98,31 +126,50 @@ export function ResourcePanel({
                     row.id,
                 )}
               </h3>
-              <small>ID: {row.id}</small>
-              <dl className={styles.details}>
-                {Object.entries(row)
-                  .filter(([key]) => key !== 'id' && key !== 'correct_answer')
-                  .map(([key, value]) => (
-                    <div key={key}>
-                      <dt>{t[key as keyof typeof t] ?? key}</dt>
-                      <dd>
-                        {typeof value === 'object'
-                          ? JSON.stringify(value)
-                          : String(value ?? '—')}
-                      </dd>
-                    </div>
-                  ))}
-              </dl>
+              <div className={styles.recordMeta}>
+                <Badge>#{row.id}</Badge>
+                {row.level != null && (
+                  <Badge tone="primary">{String(row.level)}</Badge>
+                )}
+                {typeof row.is_active === 'boolean' && (
+                  <Badge tone={row.is_active ? 'success' : 'neutral'}>
+                    {t.active}: {row.is_active ? copy.yes : copy.no}
+                  </Badge>
+                )}
+              </div>
+              <details className={styles.recordDetails}>
+                <summary>{copy.details}</summary>
+                <dl className={styles.details}>
+                  {Object.entries(row)
+                    .filter(([key]) => key !== 'id' && key !== 'correct_answer')
+                    .map(([key, value]) => (
+                      <div key={key}>
+                        <dt>{t[key as keyof typeof t] ?? key}</dt>
+                        <dd>
+                          {typeof value === 'object'
+                            ? JSON.stringify(value)
+                            : typeof value === 'boolean'
+                              ? value
+                                ? copy.yes
+                                : copy.no
+                              : String(value ?? '—')}
+                        </dd>
+                      </div>
+                    ))}
+                </dl>
+              </details>
               <div className={styles.actions}>
                 {resource === 'level-tests' && (
                   <Button
                     variant="secondary"
                     onClick={() => setTest(String(row.id))}
                   >
+                    <ListChecks size={16} />
                     {t['test-questions']}
                   </Button>
                 )}
                 <Button variant="secondary" onClick={() => setEditor(row)}>
+                  <Pencil size={16} />
                   {t.edit}
                 </Button>
                 <Button
@@ -133,6 +180,7 @@ export function ResourcePanel({
                     setDeleting(row);
                   }}
                 >
+                  <Trash2 size={16} />
                   {resource === 'users' ? t.deactivate : t.remove}
                 </Button>
               </div>
@@ -142,9 +190,6 @@ export function ResourcePanel({
       )}
       {filtered.length > limit && (
         <Button onClick={() => setLimit(limit + 20)}>{t.more}</Button>
-      )}
-      {resource === 'level-tests' && test && (
-        <ResourcePanel key={test} resource="test-questions" parentTest={test} />
       )}
       {editor && (
         <ResourceEditor

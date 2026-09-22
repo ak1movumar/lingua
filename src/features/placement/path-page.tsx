@@ -67,7 +67,10 @@ export function PathPage() {
                 {!path.data.courses.length ? (
                   <EmptyState title={t.empty} description={t.hint} />
                 ) : (
-                  <LearningJourney courses={path.data.courses} />
+                  <LearningJourney
+                    courses={path.data.courses}
+                    placementCompleted={path.data.placement_completed}
+                  />
                 )}
               </div>
               <Card className={styles.summary}>

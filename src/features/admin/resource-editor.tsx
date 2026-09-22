@@ -3,7 +3,9 @@ import { useAuth } from '@/features/auth/auth-provider';
 import { useI18n } from '@/providers/i18n-provider';
 import { labels } from '@/i18n/management';
 import { Button } from '@/components/ui/button';
-import styles from '@/components/ui/collection.module.scss';
+import styles from './admin.module.scss';
+import { Save } from 'lucide-react';
+import { adminCopy, resourceIcons } from './presentation';
 import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/services/api/client';
@@ -32,6 +34,8 @@ export function ResourceEditor({
 }) {
   const { locale } = useI18n();
   const t = labels[locale];
+  const copy = adminCopy[locale];
+  const Icon = resourceIcons[resource];
   const { user } = useAuth();
   const client = useQueryClient();
   const lock = useRef(false);
@@ -113,7 +117,8 @@ export function ResourceEditor({
     <>
       <Modal
         open
-        title={row === 'new' ? t.create : t.edit}
+        className={styles.editor}
+        title={(row === 'new' ? t.create : t.edit) + ' · ' + t[resource]}
         onClose={() => {
           if (!mutation.isPending) {
             if (dirty) setDiscard(true);
@@ -160,13 +165,33 @@ export function ResourceEditor({
             }
           }}
         >
+          <div className={styles.editorIntro}>
+            <span className={styles.resourceIcon}>
+              <Icon size={24} />
+            </span>
+            <p>{copy.required}</p>
+          </div>
           {(resource === 'exercises' || resource === 'test-questions') && (
-            <p className={styles.muted}>{t.jsonHint}</p>
+            <details className={styles.hint}>
+              <summary>{copy.format}</summary>
+              <p>{t.jsonHint}</p>
+            </details>
           )}
           {fields.map((field) => {
             const label = t[field.key as keyof typeof t] ?? field.key;
             const common = {
-              label,
+              label: label + (field.required ? ' *' : ''),
+              className: [
+                'description',
+                'question',
+                'options',
+                'correct_answer',
+                'conditions',
+                'title',
+                'name',
+              ].includes(field.key)
+                ? styles.fullField
+                : undefined,
               value: values[field.key] ?? '',
               disabled:
                 mutation.isPending ||
@@ -208,7 +233,11 @@ export function ResourceEditor({
                   <option value="">{t.choose}</option>
                   {(field.choices ?? ['true', 'false']).map((value) => (
                     <option key={value} value={value}>
-                      {value}
+                      {field.type === 'boolean'
+                        ? value === 'true'
+                          ? copy.yes
+                          : copy.no
+                        : value}
                     </option>
                   ))}
                 </Select>
@@ -238,15 +267,25 @@ export function ResourceEditor({
               {invalid ? t.invalid : t.error}
             </p>
           )}
-          <Button
-            type="submit"
-            loading={mutation.isPending}
-            disabled={
-              resource === 'users' && row !== 'new' && row.id === user?.id
-            }
-          >
-            {t.save}
-          </Button>
+          <div className={styles.editorActions}>
+            <Button
+              variant="secondary"
+              disabled={mutation.isPending}
+              onClick={() => (dirty ? setDiscard(true) : onClose())}
+            >
+              {t.cancel}
+            </Button>
+            <Button
+              type="submit"
+              loading={mutation.isPending}
+              disabled={
+                resource === 'users' && row !== 'new' && row.id === user?.id
+              }
+            >
+              <Save size={17} />
+              {t.save}
+            </Button>
+          </div>
         </form>
       </Modal>
       <ConfirmDialog

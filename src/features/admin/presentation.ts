@@ -1,0 +1,58 @@
+import {
+  Languages,
+  BookOpen,
+  Layers,
+  PenLine,
+  Medal,
+  Flame,
+  ClipboardCheck,
+  ListChecks,
+  Users,
+} from 'lucide-react';
+import type { Resource } from './resources';
+export const resourceIcons = {
+  languages: Languages,
+  courses: BookOpen,
+  lessons: Layers,
+  exercises: PenLine,
+  achievements: Medal,
+  challenges: Flame,
+  'level-tests': ClipboardCheck,
+  'test-questions': ListChecks,
+  users: Users,
+} satisfies Record<Resource, typeof Languages>;
+export const adminCopy = {
+  ru: {
+    hint: 'Создавайте учебные материалы и управляйте платформой.',
+    required: '* — обязательное поле',
+    yes: 'Да',
+    no: 'Нет',
+    details: 'Подробности',
+    records: 'Записей',
+    back: 'Назад к тестам',
+    format: 'Формат данных',
+    content: 'Учебные материалы',
+  },
+  en: {
+    hint: 'Create learning materials and manage the platform.',
+    required: '* — required field',
+    yes: 'Yes',
+    no: 'No',
+    details: 'Details',
+    records: 'Records',
+    back: 'Back to tests',
+    format: 'Data format',
+    content: 'Learning content',
+  },
+  ky: {
+    hint: 'Окуу материалдарын түзүп, платформаны башкарыңыз.',
+    required: '* — милдеттүү талаа',
+    yes: 'Ооба',
+    no: 'Жок',
+    details: 'Толук маалымат',
+    records: 'Жазуулар',
+    back: 'Тесттерге кайтуу',
+    format: 'Маалымат форматы',
+    content: 'Окуу материалдары',
+  },
+};

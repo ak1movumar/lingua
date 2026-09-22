@@ -5,6 +5,7 @@ import { useI18n } from '@/providers/i18n-provider';
 import { Button, IconButton } from './button';
 import { acquireScrollLock } from '@/lib/scroll-lock';
 import styles from './modal.module.scss';
+import { cn } from '@/lib/cn';
 export function Modal({
   open,
   onClose,
@@ -12,6 +13,7 @@ export function Modal({
   description,
   children,
   footer,
+  className,
 }: {
   open: boolean;
   onClose: () => void;
@@ -19,6 +21,7 @@ export function Modal({
   description?: string;
   children?: ReactNode;
   footer?: ReactNode;
+  className?: string;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   const id = useId();
@@ -43,7 +46,7 @@ export function Modal({
   return (
     <dialog
       ref={ref}
-      className={styles.modal}
+      className={cn(styles.modal, className)}
       aria-labelledby={id}
       aria-describedby={description ? id + '-description' : undefined}
       onCancel={(event) => {

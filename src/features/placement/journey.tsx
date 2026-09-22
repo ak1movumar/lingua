@@ -12,8 +12,10 @@ import styles from './path.module.scss';
 
 export function LearningJourney({
   courses,
+  placementCompleted,
 }: {
   courses: components['schemas']['LearningCourseResponse'][];
+  placementCompleted: boolean;
 }) {
   const {
     locale,
@@ -68,6 +70,11 @@ export function LearningJourney({
                 {course.is_unlocked ? (
                   <LinkButton href={'/courses/' + course.id}>
                     {t.open}
+                    <ArrowUpRight size={17} />
+                  </LinkButton>
+                ) : !placementCompleted ? (
+                  <LinkButton href={'/level-tests/' + course.language_id}>
+                    {t.start}
                     <ArrowUpRight size={17} />
                   </LinkButton>
                 ) : (

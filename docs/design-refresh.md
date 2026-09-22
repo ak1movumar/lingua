@@ -28,6 +28,6 @@ Final edit prompt:
 
 The dashboard now has a main learning column and an activity rail. Courses, course details, the learning journey, exercises, tests, progress, profiles, settings, friends, community, chats, achievements, challenges, leaderboard, administration, and course import share the theme-aware surfaces and controls. Rewards have dedicated medal cards and leaderboard rows; administration has a resource navigation panel. Mobile supplementary navigation wraps into two columns.
 
-Verified in the signed-in demo account: dashboard, profile, settings, community, chat list, achievements and leaderboard; desktop and mobile views and light/dark surfaces. The current backend catalog and chat history are empty, so populated courses, lesson attempts, conversations and administrative records cannot be verified with this account. No test records were created on the server.
+Verified in the signed-in demo account: dashboard, profile, settings, community, chat list, achievements and leaderboard; desktop and mobile views and light/dark surfaces. Follow-up verification on 22 September also covered populated friend cards, a public profile, and an existing conversation on desktop and at 390 × 844. The backend course catalog remains empty, so populated courses and lesson attempts are still unverified; the current account does not provide administrative access. No test records were created on the server.
 
 Backend moved to http://54.90.250.224. Its OpenAPI schema matches all 61 existing paths.

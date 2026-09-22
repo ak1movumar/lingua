@@ -96,11 +96,7 @@ export default async function RootLayout({
   const locale = await getLocale();
 
   return (
-    <html
-      lang={locale}
-      data-scroll-behavior="smooth"
-      suppressHydrationWarning
-    >
+    <html lang={locale} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
         <a className="skip-link" href="#main-content">
           {messages[locale].common.skip}
