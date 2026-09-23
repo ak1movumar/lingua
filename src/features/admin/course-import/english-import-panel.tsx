@@ -34,7 +34,7 @@ export function EnglishImportPanel() {
     window.addEventListener('beforeunload', warn);
     return () => window.removeEventListener('beforeunload', warn);
   }, [busy]);
-  async function start() {
+  async function start(testsOnly = false) {
     if (running.current || user?.role !== 'admin') return;
     running.current = true;
     setBusy(true);
@@ -44,6 +44,34 @@ export function EnglishImportPanel() {
       if (sessionStore.getSnapshot().generation !== generation)
         throw Error('Сессия изменилась');
     };
+    async function request<T>(run: () => Promise<T>): Promise<T> {
+      for (let attempt = 0; ; attempt++) {
+        await new Promise((resolve) => setTimeout(resolve, 1100));
+        check();
+        try {
+          return await run();
+        } catch (error) {
+          if (
+            !axios.isAxiosError(error) ||
+            error.response?.status !== 429 ||
+            attempt >= 4
+          )
+            throw error;
+          setStatus(
+            'Сервер ограничил частоту запросов. Продолжаем после паузы…',
+          );
+          const retryAfter = Number(error.response.headers['retry-after']);
+          await new Promise((resolve) =>
+            setTimeout(
+              resolve,
+              Number.isFinite(retryAfter) && retryAfter > 0
+                ? Math.min(retryAfter * 1000, 60000)
+                : 30000,
+            ),
+          );
+        }
+      }
+    }
     try {
       if (!navigator.locks)
         throw Error('Браузер не поддерживает блокировку импорта');
@@ -56,14 +84,16 @@ export function EnglishImportPanel() {
             'lingora-english-import:v2:' +
             env.NEXT_PUBLIC_API_URL +
             ':' +
-            user.id;
+            user.id +
+            (testsOnly ? ':tests' : '');
           const data = await importEnglish(
             {
               list: async (path) =>
-                z.array(row).parse((await api.get(path)).data),
+                z.array(row).parse((await request(() => api.get(path))).data),
               create: async (path, body) =>
-                row.parse((await api.post(path, body)).data),
-              update: async (path, body) => (await api.put(path, body)).data,
+                row.parse((await request(() => api.post(path, body))).data),
+              update: async (path, body) =>
+                (await request(() => api.put(path, body))).data,
             },
             {
               read: () => localStorage.getItem(key),
@@ -72,6 +102,7 @@ export function EnglishImportPanel() {
             },
             setStatus,
             check,
+            testsOnly,
           );
           check();
           setResult(data);
@@ -100,7 +131,7 @@ export function EnglishImportPanel() {
   return (
     <div className={styles.page}>
       <PageHeader
-        eyebrow="Lingora Studio"
+        eyebrow="LearM Studio"
         title="Английский A1–A2"
         description="Два последовательных курса с объяснениями на русском, практикой и проверкой уровня."
       />
@@ -146,12 +177,21 @@ export function EnglishImportPanel() {
           </p>
         )}
         {busy && <p role="status">Добавление: {status}</p>}
+        <Button
+          disabled={busy || user?.role !== 'admin'}
+          onClick={() => void start(true)}
+        >
+          Добавить только тесты A1–A2
+        </Button>
         {result ? (
           <>
             <p role="status">
-              Готово: 2 курса, 24 урока, 192 упражнения и 3 теста.
+              {result.courseIds.length
+                ? 'Готово: 2 курса, 24 урока, 192 упражнения и 3 теста.'
+                : 'Готово: 3 теста, 72 вопроса.'}
             </p>
             <div className={styles.actions}>
+              <LinkButton href="/level-tests">Открыть тесты уровня</LinkButton>
               {result.courseIds.map((id, i) => (
                 <LinkButton key={id} href={'/courses/' + id}>
                   Открыть {i === 0 ? 'A1' : 'A2'}

@@ -329,7 +329,7 @@ export const en: Messages = {
     passwordHint: 'Between 8 and 100 characters.',
     login: 'Sign in',
     register: 'Create account',
-    noAccount: 'New to Lingora?',
+    noAccount: 'New to LearM?',
     hasAccount: 'Already with us?',
     registerLink: 'Start learning',
     loginLink: 'Sign in',
@@ -379,7 +379,7 @@ export const en: Messages = {
     eyebrow: 'FOR A WORLD WORTH DISCOVERING',
     heroTitle: 'A new language.\nMore of your world.',
     heroDescription:
-      'Find the words. Meet the people. Open new horizons — at your own pace, with Lingora.',
+      'Find the words. Meet the people. Open new horizons — at your own pace, with LearM.',
     explore: 'Explore courses',
     heroNote: 'Your journey starts with curiosity.',
     journeyLabel: 'SMALL STEPS. REAL DISCOVERIES.',
@@ -405,7 +405,7 @@ export const en: Messages = {
     stepThree: 'Keep the conversation going',
     stepThreeBody: 'Meet other learners and connect.',
     coursesTitle: 'Find your first course.',
-    coursesDescription: 'Current learning materials from the Lingora catalog.',
+    coursesDescription: 'Current learning materials from the LearM catalog.',
     coursesEmpty: 'The catalog is taking shape',
     coursesEmptyBody:
       'Courses will appear here when they are published on the platform.',
@@ -441,7 +441,7 @@ export const en: Messages = {
     communityNote: 'A conversation can be the start of something great.',
     aboutTitle: 'For the curious.',
     aboutBody:
-      'Lingora brings learning and conversation together in one calm space. We believe language opens doors to people, places and ideas.',
+      'LearM brings learning and conversation together in one calm space. We believe language opens doors to people, places and ideas.',
     ctaTitle: 'Your next story\nstarts here.',
     ctaBody:
       'Take the first step toward the language you have always wanted to learn.',
@@ -487,7 +487,7 @@ export const en: Messages = {
     retry: 'Try again',
   },
   studio: {
-    eyebrow: 'LINGORA · DESIGN SYSTEM / 02',
+    eyebrow: 'LearM · DESIGN SYSTEM / 02',
     title: 'A shared beginning. Your own path.',
     description:
       'A thoughtful space for new knowledge, conversations and discoveries.',
@@ -571,7 +571,7 @@ export const en: Messages = {
     type: 'Typography',
     typeSample: 'Learn. Connect. Discover.',
     typeBody: 'Clear words, a gentler rhythm and attention to detail.',
-    footer: 'Lingora · A space for new horizons',
+    footer: 'LearM · A space for new horizons',
     status: 'Components',
     sectionNotice: 'Interactive examples of interface components.',
   },

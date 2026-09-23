@@ -38,7 +38,7 @@ export function AuthScreen({
           <p>{t.brandDescription}</p>
           <LanguageArt compact />
         </div>
-        <p className={styles.brandFoot}>Lingora · {landing.footer}</p>
+        <p className={styles.brandFoot}>LearM · {landing.footer}</p>
       </aside>
       <section className={styles.formSide}>
         <header>
@@ -57,7 +57,7 @@ export function AuthScreen({
           <div className={styles.mobileLogo}>
             <Logo />
           </div>
-          <p className={styles.eyebrow}>LINGORA</p>
+          <p className={styles.eyebrow}>LearM</p>
           <h1>{mode === 'login' ? t.loginTitle : t.registerTitle}</h1>
           <p className={styles.description}>
             {mode === 'login' ? t.loginDescription : t.registerDescription}

@@ -1,6 +1,8 @@
 import type { Locale } from './config';
 const ru = {
   title: 'Мой учебный маршрут',
+  completionHint:
+    'Итоговый тест проверяет знания уровня. Сначала пройдите вступительный тест и уроки этого уровня.',
   hint: 'Определите свой уровень и двигайтесь по курсам шаг за шагом.',
   placement: 'Определить уровень',
   completion: 'Итоговый тест',
@@ -39,6 +41,8 @@ const ru = {
 type Text = { [K in keyof typeof ru]: string };
 const en: Text = {
   title: 'My learning path',
+  completionHint:
+    'Check your knowledge of this level. Complete placement and the lessons for this level first.',
   hint: 'Find your level and progress through courses step by step.',
   placement: 'Find my level',
   completion: 'Level completion test',
@@ -76,6 +80,8 @@ const en: Text = {
 };
 const ky: Text = {
   title: 'Менин окуу жолум',
+  completionHint:
+    'Бул деңгээлдеги билимиңизди текшериңиз. Адегенде баштапкы тестти жана ушул деңгээлдин сабактарын өтүңүз.',
   hint: 'Деңгээлиңизди аныктап, курстарды кадам сайын өтүңүз.',
   placement: 'Деңгээлди аныктоо',
   completion: 'Жыйынтыктоочу тест',

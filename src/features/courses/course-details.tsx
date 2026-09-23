@@ -71,15 +71,31 @@ export function CourseDetails({ id }: { id: number }) {
             <section className={styles.lessonList}>
               <h2>{t.lessons}</h2>
               {path.isSuccess && !access?.is_unlocked && (
-                <p className={styles.notice}>
-                  {placementMessages[locale].locked}
-                </p>
+                <div className={styles.notice}>
+                  <p>
+                    {path.data.placement_completed
+                      ? placementMessages[locale].completionHint
+                      : placementMessages[locale].needed}
+                  </p>
+                  <LinkButton
+                    href={
+                      path.data.placement_completed
+                        ? '/level-tests'
+                        : '/level-tests/' + course.data.language_id
+                    }
+                  >
+                    {path.data.placement_completed
+                      ? placementMessages[locale].tests
+                      : placementMessages[locale].placement}
+                  </LinkButton>
+                </div>
               )}
               {lessons.isPending ? (
                 <LearningSkeleton />
               ) : lessons.isError ? (
                 <LearningError onRetry={() => void lessons.refetch()} />
-              ) : !lessons.data.length ? (
+              ) : path.isSuccess && !access?.is_unlocked ? null : !lessons.data
+                  .length ? (
                 <EmptyState title={t.noLessons} description={t.noLessonsHint} />
               ) : (
                 lessons.data.map((lesson, index) => {
@@ -138,7 +154,7 @@ export function CourseDetails({ id }: { id: number }) {
               <Card>
                 <p className={styles.overline}>{t.courseSummary}</p>
                 <h2>{t.courseProgress}</h2>
-                {stats ? (
+                {stats && access?.is_unlocked ? (
                   <>
                     <strong className={styles.largeNumber}>
                       {stats.percent}
@@ -154,7 +170,11 @@ export function CourseDetails({ id }: { id: number }) {
                   </>
                 ) : (
                   <p className={styles.muted}>
-                    {progress.isError ? t.partialError : t.loading}
+                    {path.isSuccess && !access?.is_unlocked
+                      ? placementMessages[locale].locked
+                      : progress.isError
+                        ? t.partialError
+                        : t.loading}
                   </p>
                 )}
                 {next ? (

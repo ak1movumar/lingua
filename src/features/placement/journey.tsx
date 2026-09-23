@@ -50,9 +50,11 @@ export function LearningJourney({
                   <Badge tone={course.is_unlocked ? 'primary' : 'neutral'}>
                     {course.level}
                   </Badge>
-                  <span>
-                    {course.lessons.length} · {learning.lessons}
-                  </span>
+                  {course.is_unlocked && (
+                    <span>
+                      {course.lessons.length} · {learning.lessons}
+                    </span>
+                  )}
                 </div>
                 <h2>{course.title}</h2>
                 <p>{course.description}</p>

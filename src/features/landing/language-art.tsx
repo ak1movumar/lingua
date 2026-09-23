@@ -9,7 +9,7 @@ export function LanguageArt({ compact = false }: { compact?: boolean }) {
       aria-hidden="true"
     >
       <Image
-        src="/lingora-travelers.png"
+        src="/learm-travelers-community.png"
         alt=""
         fill
         priority
@@ -17,7 +17,7 @@ export function LanguageArt({ compact = false }: { compact?: boolean }) {
         className={cn(styles.heroImage, styles.darkImage)}
       />
       <Image
-        src="/lingora-travelers-light.png"
+        src="/learm-travelers-community-light.png"
         alt=""
         fill
         priority

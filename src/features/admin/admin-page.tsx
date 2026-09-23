@@ -20,7 +20,7 @@ export function AdminPage() {
     <LearningShell active="settings">
       <div className={styles.page}>
         <PageHeader
-          eyebrow="Lingora Studio"
+          eyebrow="LearM Studio"
           title={t.admin}
           description={adminCopy[locale].hint}
           action={

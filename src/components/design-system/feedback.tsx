@@ -51,9 +51,9 @@ export function Feedback() {
           </label>
           <div className={styles.divider} />
           <div className={styles.avatarRow}>
-            <Avatar name="Lingora" size="lg" />
-            <Avatar name="Lingora" />
-            <Avatar name="Lingora" size="sm" />
+            <Avatar name="LearM" size="lg" />
+            <Avatar name="LearM" />
+            <Avatar name="LearM" size="sm" />
           </div>
           <div
             className={styles.skeletonCard}

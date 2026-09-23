@@ -22,17 +22,17 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: 'Lingora — Learn Languages',
-    template: '%s | Lingora',
+    default: 'LearM — Learn Languages',
+    template: '%s | LearM',
   },
 
   description:
     'Learn languages with interactive lessons, exercises, challenges, achievements, progress tracking and a global community.',
 
-  applicationName: 'Lingora',
+  applicationName: 'LearM',
 
   keywords: [
-    'Lingora',
+    'LearM',
     'language learning',
     'learn English',
     'learn languages',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   ],
 
   creator: 'Motion Community',
-  publisher: 'Lingora',
+  publisher: 'LearM',
 
   robots: {
     index: true,
@@ -65,8 +65,8 @@ export const metadata: Metadata = {
 
   openGraph: {
     type: 'website',
-    siteName: 'Lingora',
-    title: 'Lingora — Learn Languages',
+    siteName: 'LearM',
+    title: 'LearM — Learn Languages',
     description:
       'Learn languages through interactive lessons, challenges, achievements and community.',
     images: [
@@ -74,14 +74,14 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Lingora language learning platform',
+        alt: 'LearM language learning platform',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Lingora — Learn Languages',
+    title: 'LearM — Learn Languages',
     description:
       'Learn languages through interactive lessons, challenges, achievements and community.',
     images: ['/og-image.png'],

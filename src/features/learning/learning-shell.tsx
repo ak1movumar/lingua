@@ -47,6 +47,14 @@ export function LearningShell({
     >
       <nav aria-label={extra.overview} className={styles.extraNavigation}>
         <LinkButton
+          href="/level-tests"
+          variant="ghost"
+          aria-current={pathname === '/level-tests' ? 'page' : undefined}
+        >
+          <Route size={16} />
+          {placementMessages[locale].tests}
+        </LinkButton>
+        <LinkButton
           href="/learning-path"
           variant="ghost"
           aria-current={pathname === '/learning-path' ? 'page' : undefined}

@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import styles from './layout.module.scss';
 
+
 export function Logo({ compact = false }: { compact?: boolean }) {
   return (
-    <Link href="/" aria-label="Lingora" className={styles.logo}>
+    <Link href="/" aria-label="LearM" className={styles.logo}>
       <svg
         width="34"
         height="38"
@@ -28,7 +29,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
       </svg>
       {!compact && (
         <span>
-          Lingora<span className={styles.logoDot}>.</span>
+          Lear<span className={styles.logoM}>M</span>
         </span>
       )}
     </Link>

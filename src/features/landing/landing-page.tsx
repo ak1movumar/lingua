@@ -10,6 +10,8 @@ import {
 } from 'lucide-react';
 import { useI18n } from '@/providers/i18n-provider';
 import { Logo } from '@/components/layout/logo';
+import { CommunityBadge } from '@/components/layout/community-badge';
+import { communityCopy } from './community-copy';
 import { LinkButton } from '@/components/ui/link-button';
 import { Card } from '@/components/ui/surface';
 import { PublicHeader } from './public-header';
@@ -19,8 +21,10 @@ import { LearningExperience, ProgressPreview } from './experience';
 import styles from './landing.module.scss';
 export function LandingPage() {
   const {
+    locale,
     messages: { landing: t },
   } = useI18n();
+  const community = communityCopy[locale];
   const benefits = [
     { Icon: Compass, title: t.benefitOne, body: t.benefitOneBody },
     { Icon: BookOpen, title: t.benefitTwo, body: t.benefitTwoBody },
@@ -139,6 +143,10 @@ export function LandingPage() {
           </div>
           <div>
             <p className={styles.eyebrow}>{t.communityLabel}</p>
+            <a href="#about" className={styles.creatorCredit}>
+              <CommunityBadge />
+              <span>{community.made}</span>
+            </a>
             <h2>{t.communityTitle}</h2>
             <p>{t.communityBody}</p>
             <LinkButton href="/register">
@@ -152,6 +160,18 @@ export function LandingPage() {
           <p className={styles.eyebrow}>{t.about}</p>
           <h2>{t.aboutTitle}</h2>
           <p>{t.aboutBody}</p>
+          <div className={styles.creatorCard}>
+            <CommunityBadge />
+            <div>
+              <p className={styles.eyebrow}>{community.made}</p>
+              <h3>{community.title}</h3>
+              <p>{community.body}</p>
+              <LinkButton href="#community" variant="secondary">
+                {community.link}
+                <ArrowUpRight size={17} />
+              </LinkButton>
+            </div>
+          </div>
         </section>
         <section className={styles.cta}>
           <Sparkles size={26} />
@@ -170,20 +190,19 @@ export function LandingPage() {
         </div>
 
         <nav className={styles.footerLinks} aria-label={t.about}>
+          <a href="#about">{t.about}</a>
           <a href="#features">{t.features}</a>
           <a href="#courses">{t.courses}</a>
           <a href="#community">{t.community}</a>
         </nav>
 
         <div className={styles.footerBottom}>
-          <span>© {new Date().getFullYear()} Lingora</span>
+          <span>© {new Date().getFullYear()} LearM</span>
 
-          <span>
-            Разработано{' '}
-            <a href="/" target="_blank" rel="noopener noreferrer">
-              Motion Community
-            </a>
-          </span>
+          <a href="#about" className={styles.creatorCredit}>
+            <CommunityBadge />
+            <span>{community.made}</span>
+          </a>
         </div>
       </footer>
     </div>

@@ -64,6 +64,26 @@ function fixture() {
     writes: () => writes,
   };
 }
+test('an interrupted request with no saved record is retried after two authoritative reads', async () => {
+  const f = fixture();
+  f.journal.write('english:language');
+  let reads = 0;
+  const list = f.api.list;
+  f.api.list = async (path) => {
+    if (path === '/languages') reads++;
+    return list(path);
+  };
+  await importEnglish(
+    f.api,
+    f.journal,
+    () => {},
+    () => {},
+    true,
+  );
+  assert.equal(reads, 2);
+  assert.equal(f.tables['/languages']!.length, 1);
+  assert.equal(f.journal.read(), null);
+});
 test('English package creates two courses, 24 lessons, 192 exercises and three complete exams; rerun creates nothing', async () => {
   const f = fixture();
   await importEnglish(
@@ -137,4 +157,42 @@ test('A2 lessons and exam questions have nonempty unique prompts and answers wit
       assert.equal(q.level, level);
     }
   }
+});
+test('tests-only import fills an existing empty placement test and creates completion tests without touching courses', async () => {
+  const f = fixture();
+  const language = await f.api.create('/languages', {
+    name: 'English',
+    code: 'en',
+    is_active: true,
+  });
+  const placement = await f.api.create('/level-tests', {
+    language_id: language.id,
+    is_placement: true,
+    target_level: null,
+    is_active: true,
+    passing_score: 70,
+  });
+  const result = await importEnglish(
+    f.api,
+    f.journal,
+    () => {},
+    () => {},
+    true,
+  );
+  assert.deepEqual(result.courseIds, []);
+  assert.equal(f.tables['/courses'], undefined);
+  assert.equal(f.tables['/level-tests']!.length, 3);
+  assert.equal(
+    f.tables['/level-tests/' + placement.id + '/questions']!.length,
+    24,
+  );
+  const writes = f.writes();
+  await importEnglish(
+    f.api,
+    f.journal,
+    () => {},
+    () => {},
+    true,
+  );
+  assert.equal(f.writes(), writes);
 });

@@ -81,7 +81,7 @@ export function Sidebar({
           <ThemeSwitcher />
         </div>
         <div className={styles.user}>
-          <Avatar name={identity?.name ?? 'Lingora'} />
+          <Avatar name={identity?.name ?? 'LearM'} />
           <div>
             <strong>{identity?.name ?? nav.guest}</strong>
             <span>{identity?.description ?? nav.guestHint}</span>

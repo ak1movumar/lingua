@@ -8,6 +8,7 @@ import { LanguageSwitcher, ThemeSwitcher } from '@/components/ui/preferences';
 import { Sidebar } from './sidebar';
 import { MobileBottomNav } from './mobile-bottom-nav';
 import { Header } from './header';
+import { communityCopy } from '@/features/landing/community-copy';
 import { navigation, type NavigationKey } from './navigation';
 import styles from './layout.module.scss';
 export function AppShell({
@@ -31,6 +32,7 @@ export function AppShell({
   const [menu, setMenu] = useState(false);
   const [preferences, setPreferences] = useState(false);
   const {
+    locale,
     messages: { nav, ui, studio },
   } = useI18n();
   return (
@@ -55,7 +57,9 @@ export function AppShell({
         </main>
         <footer className={styles.footer}>
           {studio.footer}
-          <span>© {new Date().getFullYear()} Lingora</span>
+          <Link href="/#about">
+            © {new Date().getFullYear()} LearM · {communityCopy[locale].made}
+          </Link>
         </footer>
       </div>
       <MobileBottomNav active={active} onNavigate={onNavigate} />

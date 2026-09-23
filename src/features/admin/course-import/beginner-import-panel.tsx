@@ -126,11 +126,7 @@ export function BeginnerImportPanel() {
   };
   return (
     <Card className={styles.item}>
-      <PageHeader
-        eyebrow="Lingora"
-        title={t.title}
-        description={t.description}
-      />
+      <PageHeader eyebrow="LearM" title={t.title} description={t.description} />
       <details>
         <summary>12 · A1</summary>
         <ol>

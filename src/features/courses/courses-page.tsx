@@ -58,8 +58,8 @@ export function CoursesPage() {
         title={t.catalog}
         description={t.catalogHint}
         action={
-          <LinkButton href="/learning-path">
-            {placementMessages[locale].title}
+          <LinkButton href="/level-tests">
+            {placementMessages[locale].tests}
           </LinkButton>
         }
       />

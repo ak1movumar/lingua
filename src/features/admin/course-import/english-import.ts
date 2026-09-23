@@ -38,9 +38,15 @@ export async function importEnglish(
   journal: ImportJournal,
   report: (message: string) => void,
   assertSession: () => void,
+  testsOnly = false,
 ) {
   let added = 0;
   let reused = 0;
+  const lists = new Map<string, ImportRow[]>();
+  async function list(path: string) {
+    if (!lists.has(path)) lists.set(path, [...(await api.list(path))]);
+    return lists.get(path)!;
+  }
   async function ensure(
     path: string,
     listPath: string,
@@ -49,7 +55,7 @@ export async function importEnglish(
     match: (row: ImportRow) => boolean,
   ) {
     assertSession();
-    const rows = await api.list(listPath);
+    const rows = await list(listPath);
     assertSession();
     const found = rows.filter(match);
     if (found.length > 1) throw Error('DUPLICATE: ' + key);
@@ -58,7 +64,23 @@ export async function importEnglish(
       reused++;
       return found[0];
     }
-    if (journal.read()) throw Error('UNCERTAIN_WRITE: ' + journal.read());
+    if (journal.read() === key) {
+      // A previous interrupted request may have been rejected before writing.
+      // Reconcile against a fresh authoritative read before retrying that item.
+      const verified = await api.list(listPath);
+      assertSession();
+      const matches = verified.filter(match);
+      if (matches.length > 1) throw Error('DUPLICATE: ' + key);
+      if (matches[0]) {
+        journal.clear();
+        lists.set(listPath, [...verified]);
+        reused++;
+        return matches[0];
+      }
+      journal.clear();
+    }
+    if (journal.read())
+      throw Error('UNCERTAIN_WRITE: ' + journal.read() + ' BEFORE ' + key);
     journal.write(key);
     let row: ImportRow;
     try {
@@ -67,11 +89,13 @@ export async function importEnglish(
       const status = axios.isAxiosError(error)
         ? error.response?.status
         : undefined;
-      if (status && [400, 403, 404, 409, 422].includes(status)) journal.clear();
+      if (status && [400, 403, 404, 409, 422, 429].includes(status))
+        journal.clear();
       throw error;
     }
     assertSession();
     if (!match(row)) throw Error('IDENTITY: ' + key);
+    rows.push(row);
     journal.clear();
     added++;
     return row;
@@ -107,7 +131,7 @@ export async function importEnglish(
     },
   ];
   const courseIds: (number | string)[] = [];
-  for (const [ci, seed] of courseSeeds.entries()) {
+  for (const [ci, seed] of (testsOnly ? [] : courseSeeds).entries()) {
     report(seed.title);
     const course = await ensure(
       '/courses',
@@ -185,7 +209,7 @@ export async function importEnglish(
         r.target_level === exam.level,
     );
     testIds.push(test.id);
-    const existing = await api.list('/level-tests/' + test.id + '/questions');
+    const existing = await list('/level-tests/' + test.id + '/questions');
     assertSession();
     if (
       existing.some(

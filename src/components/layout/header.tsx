@@ -5,7 +5,9 @@ import { useI18n } from '@/providers/i18n-provider';
 import { IconButton } from '@/components/ui/button';
 import { Badge } from '@/components/ui/surface';
 import { Logo } from './logo';
+import logoLight from '../../../public/logoLight.jpg';
 import styles from './layout.module.scss';
+import Image from 'next/image';
 export function Header({
   onMenu,
   onPreferences,
@@ -26,6 +28,7 @@ export function Header({
     <header className={styles.header}>
       <div className={styles.mobileBrand}>
         <Logo />
+        {/* <Image src={logoLight} alt="LearM" width={100} height={50} /> */}
       </div>
       <span className={styles.breadcrumb}>{title ?? studio.preview}</span>
       <div className={styles.headerActions}>
