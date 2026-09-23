@@ -5,9 +5,7 @@ import { useI18n } from '@/providers/i18n-provider';
 import { IconButton } from '@/components/ui/button';
 import { Badge } from '@/components/ui/surface';
 import { Logo } from './logo';
-import logoLight from '../../../public/logoLight.jpg';
 import styles from './layout.module.scss';
-import Image from 'next/image';
 export function Header({
   onMenu,
   onPreferences,
